@@ -25,8 +25,8 @@ namespace GoldenShelf
         protected override void OnResume()
         {
         }
-        
-        
+
+
         //Defines a key for email
         public string Email
         {

@@ -17,6 +17,7 @@ namespace GoldenShelf
         {
             InitializeComponent();
             backclick();
+            
         }
 
         void backclick()

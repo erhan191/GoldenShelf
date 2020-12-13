@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GoldenShelf.Views.MyAdverts"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="#eeeeee">
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout Orientation="Horizontal" Padding="10,10,85,0">
+                <Image x:Name="back" Source="back.png" HeightRequest="25" HorizontalOptions="StartAndExpand"/>
+                <Image Source="goldenshelf.png" HeightRequest="40" HorizontalOptions="Center"></Image>
+                <Label Text="My Adverts" FontAttributes="Bold" FontSize="30" TextColor="Black" HorizontalOptions="Center" Padding="0,0,20,0"></Label>
+            </StackLayout>
+            <ListView x:Name="MyAdvertsListView" RowHeight="120" Header="" ItemTapped="MyAdvertsListview_ItemTapped" Margin="10,0">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame BackgroundColor="{Binding BGColor}" CornerRadius="20" Margin="0,5" Padding="5,0"  >
+                                <StackLayout Orientation="Horizontal"  Padding="20,0">
+                                    <Image Source="{Binding ImageUrl}" Aspect="AspectFill"  WidthRequest="60" HorizontalOptions="Start"></Image>
+                                    <StackLayout HorizontalOptions="CenterAndExpand" Padding="20,0">
+                                        <Label Text="{Binding BookName}" FontAttributes="Bold" TextColor="White" FontSize="17" HorizontalTextAlignment="Start"></Label>
+                                        <Label Text="{Binding BookAuthor}" FontAttributes="Bold" TextColor="White" FontSize="14" HorizontalTextAlignment="Start"></Label>
+                                        <Label Text="{Binding BookCategory}" FontAttributes="Bold" TextColor="White" FontSize="12" HorizontalTextAlignment="Start"></Label>
+                                        <Label Text="Donation" FontAttributes="Bold" TextColor="Black" FontSize="14" VerticalOptions="Center"  HorizontalTextAlignment="Start"></Label>
+                                    </StackLayout>
+                                    <ImageButton Source="remove.png" HeightRequest="40" HorizontalOptions="End" Padding="10,0" VerticalOptions="Center" BackgroundColor="Transparent"></ImageButton>
+                                </StackLayout>
+                            </Frame>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

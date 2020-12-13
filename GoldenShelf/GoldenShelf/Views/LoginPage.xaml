@@ -34,7 +34,7 @@
                     </Image>
                 </StackLayout>
             </Frame>
-            <Button Clicked="Login_Clicked" Text="LOGIN" BackgroundColor="#E6B614" CornerRadius="25" Margin="50,5" TextColor="White"/>
+            <Button Clicked="Login_Clicked" Text="LOGIN" BackgroundColor="#E6B614" CornerRadius="25" Margin="50,5" TextColor="White" />
         </StackLayout>
     </Grid>
 

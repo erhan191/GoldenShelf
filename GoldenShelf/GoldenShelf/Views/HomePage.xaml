@@ -7,19 +7,72 @@
             Shell.TabBarBackgroundColor="#ffffff"
        Shell.UnselectedColor="Black"
        Shell.TabBarTitleColor="#E6B614">
-    <FlyoutItem FlyoutIcon="user.png" Title="Welcome" Appearing="Profile_Tab_AppearingAsync">
-        <Tab Icon="home.png" Title="Home" FlyoutIcon="home.png">
+    <FlyoutItem FlyoutIcon="user.png" Title="Welcome" Appearing="Profile_Tab_AppearingAsync" >
+        <Tab Icon="home.png" Title="Home" FlyoutIcon="home.png" >
             <ShellContent>
-                <ContentPage>
-                    <AbsoluteLayout  VerticalOptions="StartAndExpand" Padding="0,5,0,0">
-                        <Image Source="goldenshelf.png" HeightRequest="50" WidthRequest="50"  AbsoluteLayout.LayoutBounds="10,10"></Image>
-                        <Frame CornerRadius="45" BackgroundColor="#ECE0BD" HeightRequest="5" WidthRequest="210" AbsoluteLayout.LayoutBounds="60,10">
-                        </Frame>
-                        <Image Source="search.png" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" Opacity="0.5" AbsoluteLayout.LayoutBounds="70,25" ></Image>
-                        <Entry Placeholder="Search anything.." PlaceholderColor="DarkGray" FontSize="15" WidthRequest="180" VerticalOptions="End" AbsoluteLayout.LayoutBounds="100,15"></Entry>
-                        <ImageButton BackgroundColor="Transparent" Clicked="FilterButton_Clicked" Source="filter.png" HeightRequest="40" AbsoluteLayout.LayoutBounds="310,15"></ImageButton>
-                        <Image Source="settings.png" HeightRequest="30" AbsoluteLayout.LayoutBounds="365,20"></Image>
-                    </AbsoluteLayout>
+                <ContentPage BackgroundColor="#eeeeee">
+                    
+                        <StackLayout>
+                            <AbsoluteLayout  VerticalOptions="StartAndExpand" Padding="0,5,0,0">
+                                <Image Source="goldenshelf.png" HeightRequest="50" WidthRequest="50"  AbsoluteLayout.LayoutBounds="10,10"></Image>
+                                <Frame CornerRadius="45" BackgroundColor="#ECE0BD" HeightRequest="5" WidthRequest="210" AbsoluteLayout.LayoutBounds="60,10">
+                                </Frame>
+                                <Image Source="search.png" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" Opacity="0.5" AbsoluteLayout.LayoutBounds="70,25" ></Image>
+                                <Entry Placeholder="Search anything.." PlaceholderColor="DarkGray" FontSize="15" WidthRequest="180" VerticalOptions="End" AbsoluteLayout.LayoutBounds="100,15"></Entry>
+                                <ImageButton BackgroundColor="Transparent" Clicked="FilterButton_Clicked" Source="filter.png" HeightRequest="40" AbsoluteLayout.LayoutBounds="310,15"></ImageButton>
+                                <Image Source="settings.png" HeightRequest="30" AbsoluteLayout.LayoutBounds="365,20"></Image>
+                            </AbsoluteLayout>
+                        <StackLayout Padding="10,0" Orientation="Horizontal">
+                            <ListView x:Name="DonationsListView" RowHeight="250" Header="" ItemTapped="DonationListview_ItemTapped">
+                                <ListView.HeaderTemplate>
+                                    <DataTemplate>
+                                        <Label Text="Donations" FontSize="20" FontAttributes="Bold" TextColor="#1B9101" HorizontalTextAlignment="Center" ></Label>
+                                    </DataTemplate>
+                                </ListView.HeaderTemplate>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <Frame BackgroundColor="{Binding BGColor}" CornerRadius="20" Margin="0,5" Padding="5,0"  >
+                                                <StackLayout>
+                                                    <Image Source="{Binding ImageUrl}" Aspect="AspectFill"  WidthRequest="80"></Image>
+                                                    <BoxView HeightRequest="1" BackgroundColor="White"></BoxView>
+                                                    <Label Text="{Binding BookName}" FontAttributes="Bold" TextColor="White" FontSize="17" HorizontalTextAlignment="Start"></Label>
+                                                    <Label Text="{Binding BookAuthor}" FontAttributes="Bold" TextColor="White" FontSize="14" HorizontalTextAlignment="Start"></Label>
+                                                    <Label Text="{Binding BookCategory}" FontAttributes="Bold" TextColor="White" FontSize="12" HorizontalTextAlignment="Start"></Label>
+                                                    <Label Text="Donation" FontAttributes="Bold" TextColor="Black" FontSize="14" HorizontalTextAlignment="Center"></Label>
+                                                </StackLayout>
+                                            </Frame>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                            <ListView x:Name="ExchangesListView" RowHeight="250" Header="" ItemTapped="ExchangeListview_ItemTapped">
+                                <ListView.HeaderTemplate>
+                                    <DataTemplate>
+                                        <Label Text="Exchanges" FontSize="20" FontAttributes="Bold" TextColor="#00B5B9" HorizontalTextAlignment="Center" ></Label>
+                                    </DataTemplate>
+                                </ListView.HeaderTemplate>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <Frame BackgroundColor="{Binding BGColor}" CornerRadius="20" Margin="0,5" Padding="5,0"  >
+                                                <StackLayout>
+                                                    <Image Source="{Binding ImageUrl}" Aspect="AspectFill"  WidthRequest="80"></Image>
+                                                    <BoxView HeightRequest="1" BackgroundColor="White"></BoxView>
+                                                    <Label Text="{Binding BookName}" FontAttributes="Bold" TextColor="White" FontSize="17" HorizontalTextAlignment="Start"></Label>
+                                                    <Label Text="{Binding BookAuthor}" FontAttributes="Bold" TextColor="White" FontSize="14" HorizontalTextAlignment="Start"></Label>
+                                                    <Label Text="{Binding BookCategory}" FontAttributes="Bold" TextColor="White" FontSize="12" HorizontalTextAlignment="Start"></Label>
+                                                    <Label Text="Exchange" FontAttributes="Bold" TextColor="Black" FontSize="14" HorizontalTextAlignment="Center"></Label>
+                                                </StackLayout>
+                                            </Frame>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackLayout>
+                    </StackLayout>
+                   
+                 
                 </ContentPage>
             </ShellContent>
         </Tab>
@@ -35,6 +88,7 @@
                         <Entry Placeholder="Search anything.." PlaceholderColor="DarkGray" FontSize="15" WidthRequest="180" VerticalOptions="End" AbsoluteLayout.LayoutBounds="100,15"></Entry>
                         <ImageButton BackgroundColor="Transparent" Clicked="FilterButton_Clicked" Source="filter.png" HeightRequest="40" AbsoluteLayout.LayoutBounds="310,15"></ImageButton>
                         <Image Source="settings.png" HeightRequest="30" AbsoluteLayout.LayoutBounds="365,20"></Image>
+                           
                             <Grid AbsoluteLayout.LayoutBounds="10,80" Padding="10" >
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="200" />
@@ -46,19 +100,19 @@
                                     <ColumnDefinition Width="180" />
                                     <ColumnDefinition Width="180" />
                                 </Grid.ColumnDefinitions>
-
+                                
                                 <Frame BackgroundColor="#daa520" CornerRadius="20" Grid.Row="0" Grid.Column="0" >
                                     <StackLayout>
                                         <Label Text="Biographies" FontAttributes="Bold" TextColor="Black" FontSize="17" HorizontalTextAlignment="Center"></Label>
                                         <BoxView HeightRequest="1" BackgroundColor="Black"></BoxView>
-                                        <Image Source="https://images-na.ssl-images-amazon.com/images/I/81VStYnDGrL.jpg" Aspect="AspectFill" WidthRequest="100"></Image>
+                                        <Image x:Name="categoryselect" Source="https://images-na.ssl-images-amazon.com/images/I/81VStYnDGrL.jpg" Aspect="AspectFill" WidthRequest="100"></Image>
                                     </StackLayout>
                                 </Frame>
                                 <Frame BackgroundColor="#daa520" CornerRadius="20" Grid.Row="1" Grid.Column="0" >
                                     <StackLayout>
                                         <Label Text="Classics" FontAttributes="Bold" TextColor="Black" FontSize="17" HorizontalTextAlignment="Center"></Label>
                                         <BoxView HeightRequest="1" BackgroundColor="Black"></BoxView>
-                                        <Image Source="https://images-na.ssl-images-amazon.com/images/I/81VStYnDGrL.jpg" Aspect="AspectFill" WidthRequest="100" ></Image>
+                                        <Image  Source="https://images-na.ssl-images-amazon.com/images/I/81VStYnDGrL.jpg" Aspect="AspectFill" WidthRequest="100" ></Image>
                                     </StackLayout>
                                 </Frame>
                                 <Frame BackgroundColor="#daa520" CornerRadius="20" Grid.Row="2" Grid.Column="0" >
@@ -216,6 +270,9 @@
             <ShellContent>
                 <ContentPage BackgroundColor="#EEEEEE">
                     <ScrollView>
+
+
+
                         <StackLayout>
                             <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Padding="10,20,0,0">
                                 <Image Source="goldenshelf.png" HeightRequest="40" HorizontalOptions="Center"></Image>
@@ -253,7 +310,7 @@
                 </ContentPage>
             </ShellContent>
         </Tab>
-        <Tab Icon="user.png" Title="My Profile" FlyoutIcon="user.png" >
+        <Tab Icon="user.png" Title="My Profile" FlyoutIcon="user.png">
             <ShellContent>
                 <ContentPage Background="#EEEEEE">
                     <ScrollView>
@@ -292,7 +349,7 @@
 
                             <StackLayout Orientation="Horizontal" Padding="20,15,0,0"  >
                                 <StackLayout Padding="0,0,15,0">
-                                    <Image x:Name="adverts" Source="adverts.png" WidthRequest="30" HeightRequest="30"></Image>
+                                    <ImageButton BackgroundColor="Transparent" Clicked="MyAdvertsButton_Clicked" Source="adverts.png" WidthRequest="30" HeightRequest="30"></ImageButton>
                                 </StackLayout>
                                 <StackLayout>
                                     <Label Text="My Adverts" TextColor="#000000" FontSize="17" FontAttributes="Bold" ></Label>
@@ -306,7 +363,7 @@
                                 <StackLayout  >
                                     <Label Text="Name" TextColor="#000000" FontSize="17" FontAttributes="Bold" Margin="0,-5,0,-10" ></Label>
                                     <Label x:Name="changeName" Text="" TextColor="#000000" FontSize="13" ></Label>
-                                </StackLayout>
+                                        </StackLayout>
                             </StackLayout>
 
                             <StackLayout Orientation="Horizontal" Padding="20,15,0,0" >
@@ -316,7 +373,7 @@
                                 <StackLayout  >
                                     <Label Text="Email" TextColor="#000000" FontSize="17" FontAttributes="Bold" Margin="0,-5,0,-10"></Label>
                                     <Label x:Name="changeEmail" TextColor="#000000" FontSize="13"></Label>
-                                </StackLayout>
+                                        </StackLayout>
                             </StackLayout>
 
                             <StackLayout Orientation="Horizontal" Padding="20,15,0,0">
@@ -326,7 +383,7 @@
                                 <StackLayout >
                                     <Label Text="Location" TextColor="#000000" FontSize="17" FontAttributes="Bold" Margin="0,-5,0,-10"></Label>
                                     <Label x:Name="changeLocation" TextColor="#000000" FontSize="13"></Label>
-                                </StackLayout>
+                                        </StackLayout>
                             </StackLayout>
 
                             <StackLayout Orientation="Horizontal" Padding="20,15,0,0" >
