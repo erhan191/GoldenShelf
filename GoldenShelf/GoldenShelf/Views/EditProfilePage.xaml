@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GoldenShelf.Views.EditProfilePage"
+             NavigationPage.HasNavigationBar="False">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout HorizontalOptions="Center" Margin="0,30,0,0">
+                <StackLayout Orientation="Horizontal" Padding="10,0,0,0">
+                    <Image x:Name="back" Source="back.png" HeightRequest="25" HorizontalOptions="StartAndExpand"/>
+                    <Image Source="goldenshelf.png" HeightRequest="25" HorizontalOptions="Center"></Image>
+                    <Label Text="Edit Profile" FontAttributes="Bold" FontSize="30" TextColor="Black" HorizontalOptions="Center" Padding="0,0,145,0"></Label>
+                </StackLayout>
+                <StackLayout Padding="10,0">
+                    <BoxView HeightRequest="1" Color="Black" Opacity="0.5"></BoxView>
+                </StackLayout>
+                <StackLayout Padding="20,0">
+                    <StackLayout Orientation="Horizontal" Padding="80,10">
+                        <Label Text="Edit Photo:" FontAttributes="Bold" FontSize="15" VerticalOptions="Center" TextColor="Black" Padding="20,0,0,0"></Label>
+                        <ImageButton Source="addPhoto.png" HeightRequest="40" HorizontalOptions="StartAndExpand" Margin="20,0,0,0" BackgroundColor="Transparent"></ImageButton>
+                    </StackLayout>
+                    <BoxView HeightRequest="1" BackgroundColor="#E6B614" Opacity="0.5"></BoxView>
+                    <Label Text="Change your information" FontAttributes="Bold" FontSize="15" VerticalOptions="Center" TextColor="Black" ></Label>
+                    <Frame CornerRadius="10" Margin="10,3" BackgroundColor="#FFFFFF" Padding="10">
+                        <StackLayout Orientation="Horizontal">
+
+                            <Image Source="user.png" HeightRequest="30" HorizontalOptions="Start"></Image>
+                            <Entry Placeholder="Name" PlaceholderColor="Gray" WidthRequest="350" TextColor="Black"/>
+                        </StackLayout>
+                    </Frame>
+                    <Frame CornerRadius="10" Margin="10,3" BackgroundColor="#FFFFFF" Padding="10">
+                        <StackLayout Orientation="Horizontal">
+
+                            <Image Source="user.png" HeightRequest="30" HorizontalOptions="Start"></Image>
+                            <Entry Placeholder="Surname" PlaceholderColor="Gray" WidthRequest="350" TextColor="Black"/>
+                        </StackLayout>
+                    </Frame>
+                    <Frame CornerRadius="10" Margin="10,3" BackgroundColor="#FFFFFF" Padding="10">
+                        <StackLayout Orientation="Horizontal">
+
+                            <Image Source="mail.png" HeightRequest="30" HorizontalOptions="Start"></Image>
+                            <Entry Placeholder="E-Mail" PlaceholderColor="Gray" WidthRequest="350" TextColor="Black"/>
+                        </StackLayout>
+                    </Frame>
+                    <BoxView HeightRequest="0.5" BackgroundColor="#E6B614" Opacity="0.5"></BoxView>
+                    <Label Text="Change your location" FontAttributes="Bold" FontSize="15" VerticalOptions="Center" TextColor="Black" ></Label>
+                    <Frame CornerRadius="10" Margin="10,0,10,3" BackgroundColor="#FFFFFF" Padding="10">
+                        <StackLayout Orientation="Horizontal">
+
+                            <Image Source="city.png" HeightRequest="30" HorizontalOptions="Start"></Image>
+                            <Picker TextColor="Black" Title="City" TitleColor="Gray" WidthRequest="300">
+                                <Picker.Items>
+                                    <x:String>Eskişehir</x:String>
+                                    <x:String>Ankara</x:String>
+                                </Picker.Items>
+                            </Picker>
+                        </StackLayout>
+                    </Frame>
+                    <Frame CornerRadius="10" Margin="10,3" BackgroundColor="#FFFFFF" Padding="10">
+                        <StackLayout Orientation="Horizontal">
+
+                            <Image Source="district.png" HeightRequest="30" HorizontalOptions="Start"></Image>
+                            <Picker TextColor="Black" Title="District" TitleColor="Gray" WidthRequest="300">
+                                <Picker.Items>
+                                    <x:String>Tepebaşı</x:String>
+                                    <x:String>Odunpazarı</x:String>
+                                </Picker.Items>
+                            </Picker>
+                        </StackLayout>
+                    </Frame>
+                    <BoxView HeightRequest="0.5" BackgroundColor="#E6B614" Opacity="0.5"></BoxView>
+                    <Label Text="Change your password" FontAttributes="Bold" FontSize="15" VerticalOptions="Center" TextColor="Black" ></Label>
+                    <Frame CornerRadius="10" Margin="10,3" BackgroundColor="#FFFFFF" Padding="10">
+                        <StackLayout Orientation="Horizontal">
+
+                            <Image Source="lock.png" HeightRequest="30" HorizontalOptions="Start"></Image>
+                            <Entry Placeholder="Old password" IsPassword="True" PlaceholderColor="Gray" WidthRequest="350" TextColor="Black"/>
+                        </StackLayout>
+                    </Frame>
+                    <Frame CornerRadius="10" Margin="10,3" BackgroundColor="#FFFFFF" Padding="10">
+                        <StackLayout Orientation="Horizontal">
+
+                            <Image Source="lock.png" HeightRequest="30" HorizontalOptions="Start"></Image>
+                            <Entry Placeholder="New password" IsPassword="True" PlaceholderColor="Gray" WidthRequest="350" TextColor="Black"/>
+                        </StackLayout>
+                    </Frame>
+                    <Frame CornerRadius="10" Margin="10,3" BackgroundColor="#FFFFFF" Padding="10">
+                        <StackLayout Orientation="Horizontal">
+
+                            <Image Source="lock.png" HeightRequest="30" HorizontalOptions="Start"></Image>
+                            <Entry Placeholder="Confirm new password" IsPassword="True" PlaceholderColor="Gray" WidthRequest="350" TextColor="Black"/>
+                        </StackLayout>
+                    </Frame>
+                    
+                </StackLayout>
+
+                <Button Clicked="Edit_Clicked" Text="CONFIRM EDIT" BackgroundColor="#E6B614" CornerRadius="25" Margin="50,10" TextColor="White" />
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

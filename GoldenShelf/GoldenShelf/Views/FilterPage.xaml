@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GoldenShelf.Views.FilterPage"
+             NavigationPage.HasNavigationBar="False">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout BackgroundColor="White" Padding="0,20">
+            <StackLayout Orientation="Horizontal" Padding="10,0,0,0">
+                <Image x:Name="back" Source="back.png" HeightRequest="25" HorizontalOptions="StartAndExpand"/>
+                <Image Source="goldenshelf.png" HeightRequest="40" HorizontalOptions="Center"></Image>
+                <Label Text="Filter" FontAttributes="Bold" FontSize="30" TextColor="Black" HorizontalOptions="End" Padding="0,0,20,0"></Label>
+            </StackLayout>
+            <StackLayout Padding="20,15">
+                <Label Text="Sort by" FontAttributes="Bold" FontSize="17" TextColor="DarkGray"></Label>
+
+                <StackLayout Orientation="Horizontal" Padding="20,0">
+                    <CheckBox Color="#E6B614" />
+                    <Label Text="Featured" TextColor="Black" FontAttributes="Bold" FontSize="20"></Label>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Padding="20,0">
+                    <CheckBox Color="#E6B614" />
+                    <Label Text="Donation" TextColor="Black" FontAttributes="Bold" FontSize="20"></Label>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Padding="20,0" >
+                    <CheckBox Color="#E6B614" />
+                    <Label Text="Exchange" TextColor="Black" FontAttributes="Bold" FontSize="20"></Label>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Padding="20,0" >
+                    <CheckBox Color="#E6B614" />
+                    <Label Text="Publication Date" TextColor="Black" FontAttributes="Bold" FontSize="20"></Label>
+                </StackLayout>
+            </StackLayout>
+            <StackLayout Padding="20,0,0,5">
+                <Label Text="Category" FontAttributes="Bold" FontSize="17" TextColor="DarkGray"></Label>
+
+                <StackLayout Orientation="Horizontal" Padding="20,0">
+                    <CheckBox Color="#E6B614" />
+                    <Label Text="Biographies" TextColor="Black" FontAttributes="Bold" FontSize="20"></Label>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Padding="20,0">
+                    <CheckBox Color="#E6B614" />
+                    <Label Text="Classics" TextColor="Black" FontAttributes="Bold" FontSize="20"></Label>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Padding="20,0" >
+                    <CheckBox Color="#E6B614" />
+                    <Label Text="Mystery" TextColor="Black" FontAttributes="Bold" FontSize="20"></Label>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Padding="20,0" >
+                    <CheckBox Color="#E6B614" />
+                    <Label Text="Fantasy" TextColor="Black" FontAttributes="Bold" FontSize="20"></Label>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Padding="20,0" >
+                    <CheckBox Color="#E6B614" />
+                    <Label Text="Historical Fiction" TextColor="Black" FontAttributes="Bold" FontSize="20"></Label>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Padding="20,0" >
+                    <CheckBox Color="#E6B614" />
+                    <Label Text="Romance" TextColor="Black" FontAttributes="Bold" FontSize="20"></Label>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Padding="20,0" >
+                    <CheckBox Color="#E6B614" />
+                    <Label Text="Horror" TextColor="Black" FontAttributes="Bold" FontSize="20"></Label>
+                </StackLayout>
+            </StackLayout>
+                <StackLayout BackgroundColor="#EEEEEE">
+                    <Button  Text="APPLY" BackgroundColor="#E6B614" CornerRadius="25" Margin="50,20" TextColor="White" />
+                </StackLayout>
+            </StackLayout>
+
+         
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

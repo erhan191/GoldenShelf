@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GoldenShelf.LoginPage"             
+             BackgroundColor="#EEEEEE"
+             NavigationPage.HasNavigationBar="False">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.5*"/>
+        </Grid.RowDefinitions>
+        <Image Source="back.png" Margin="10,20,20,20" HeightRequest="30" HorizontalOptions="Start" VerticalOptions="Start" x:Name="back" />
+        <StackLayout HorizontalOptions="Center">
+            <Image Source="goldenshelf.png" HeightRequest="200" Margin="0,40,0,0" />
+            <Label Text="GoldenShelf" FontSize="35" FontAttributes="Bold" TextColor="#E6B614" HorizontalOptions="Center"/>
+        </StackLayout>
+
+        <StackLayout Grid.Row="1" HorizontalOptions="Center" VerticalOptions="Center">
+            <Frame CornerRadius="15" Margin="10,10" BackgroundColor="#FFFFFF" Padding="10">
+                <StackLayout Orientation="Horizontal">
+                    <Entry Placeholder="E-mail" PlaceholderColor="Gray" WidthRequest="275" TextColor="Black"/>
+                    <Image Source="user.png" HeightRequest="25" HorizontalOptions="EndAndExpand"/>
+                </StackLayout>
+            </Frame>
+            <Frame CornerRadius="15" Margin="10,0,10,0" BackgroundColor="#FFFFFF" Padding="10">
+                <StackLayout Orientation="Horizontal">
+                    <Entry Placeholder="Password" IsPassword="True" PlaceholderColor="Gray" WidthRequest="275" TextColor="Black" x:Name="Password"/>
+                    <Image Source="visibility.png" HeightRequest="25" HorizontalOptions="EndAndExpand" x:Name="EyeVisible">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="ShowPass" NumberOfTapsRequired="1" />
+                        </Image.GestureRecognizers>
+                    </Image>
+                </StackLayout>
+            </Frame>
+            <Button Clicked="Login_Clicked" Text="LOGIN" BackgroundColor="#E6B614" CornerRadius="25" Margin="50,5" TextColor="White"/>
+        </StackLayout>
+    </Grid>
+
+
+
+</ContentPage>
