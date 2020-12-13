@@ -305,7 +305,7 @@
                                 </StackLayout>
                                 <StackLayout  >
                                     <Label Text="Name" TextColor="#000000" FontSize="17" FontAttributes="Bold" Margin="0,-5,0,-10" ></Label>
-                                    <Label Text="John Doe" TextColor="#000000" FontSize="13" ></Label>
+                                    <Label x:Name="changeName" Text="" TextColor="#000000" FontSize="13" ></Label>
                                 </StackLayout>
                             </StackLayout>
 
@@ -315,7 +315,7 @@
                                 </StackLayout>
                                 <StackLayout  >
                                     <Label Text="Email" TextColor="#000000" FontSize="17" FontAttributes="Bold" Margin="0,-5,0,-10"></Label>
-                                    <Label Text="john@abc.com" TextColor="#000000" FontSize="13"></Label>
+                                    <Label x:Name="changeEmail" TextColor="#000000" FontSize="13"></Label>
                                 </StackLayout>
                             </StackLayout>
 
@@ -325,7 +325,7 @@
                                 </StackLayout>
                                 <StackLayout >
                                     <Label Text="Location" TextColor="#000000" FontSize="17" FontAttributes="Bold" Margin="0,-5,0,-10"></Label>
-                                    <Label Text="Eskişehir/Tepebaşı" TextColor="#000000" FontSize="13"></Label>
+                                    <Label x:Name="changeLocation" TextColor="#000000" FontSize="13"></Label>
                                 </StackLayout>
                             </StackLayout>
 

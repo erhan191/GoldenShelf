@@ -76,6 +76,9 @@ namespace GoldenShelf.Views
                 profileTabName.Text = user.name;
                 profileTabLocation.Text = user.city + "/" + user.district;
                 profileTabEmail.Text=user.email;
+                changeName.Text = user.name;
+                changeEmail.Text = user.email;
+                changeLocation.Text= user.city + "/" + user.district;
 
             }
             catch (Exception ex)
