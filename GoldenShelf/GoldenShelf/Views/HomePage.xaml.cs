@@ -16,6 +16,7 @@ namespace GoldenShelf.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class HomePage : Shell
     {
+        public byte[] imagebyte;
         public ObservableCollection<Advert> DonationAdverts { get; set; }
         public ObservableCollection<Advert> ExchangeAdverts { get; set; }
 
@@ -97,14 +98,13 @@ namespace GoldenShelf.Views
                 await DisplayAlert("Error", "Could not get the image , please try again.", "OK");
             }
             selectedImage.Source = ImageSource.FromStream(() => selectedImageFile.GetStream());
+            imagebyte = GetImageStreamAsBytes(selectedImageFile.GetStream());
 
             //TODO :Add selection of multichocice
-            
+
         }
         private async void TakePhoto(object sender, EventArgs e)
         {
-
-
 
             await CrossMedia.Current.Initialize();
 
@@ -126,6 +126,8 @@ namespace GoldenShelf.Views
                 await DisplayAlert("Error", "Could not get the image , please try again.", "OK");
             }
             selectedImage.Source = ImageSource.FromStream(() => selectedImageFile.GetStream());
+            imagebyte = GetImageStreamAsBytes(selectedImageFile.GetStream());
+           
 
             //TODO :Add selection of multichocice
 
@@ -143,17 +145,30 @@ namespace GoldenShelf.Views
                 Description = description.Text,
                 ShareType = shareTypePicker.SelectedItem.ToString(),
                 PublisherEmail = app.Email,
-               // Image=File.ReadAllBytes(selectedImage.Resources+"")
-                
+                Image = imagebyte
 
-        };
+
+            };
             advertViewModel.InsertAdvert(newAdvert);
 
             DisplayAlert("Successful", "You published a new advert succesfully", "OK");
 
             //Kitap Paylaş butonu
         }
-       
+
+        public byte[] GetImageStreamAsBytes(Stream input)
+        {
+            var buffer = new byte[16 * 1024];
+            using (MemoryStream ms = new MemoryStream())
+            {
+                int read;
+                while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    ms.Write(buffer, 0, read);
+                }
+                return ms.ToArray();
+            }
+        }
 
 
         private async void EditProfile_Clicked(object sender, EventArgs e)
@@ -192,9 +207,6 @@ namespace GoldenShelf.Views
 
             //TODO: On Appering calısmıyor bu methodlar orada çalışmalı. 
             //------------------------------------------------------------------------
-
-            
-
 
             
             //To show profile information to user using saved email 

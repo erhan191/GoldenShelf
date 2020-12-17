@@ -2,11 +2,21 @@
 <Shell xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GoldenShelf.Views.HomePage"
+             xmlns:Converter="clr-namespace:GoldenShelf.Converters"
              FlyoutBackgroundColor="#41aea9"
              Shell.NavBarIsVisible="False"
             Shell.TabBarBackgroundColor="#ffffff"
-       Shell.UnselectedColor="Black"
-       Shell.TabBarTitleColor="#E6B614">
+            Shell.UnselectedColor="Black"
+            Shell.TabBarTitleColor="#E6B614">
+
+
+    <Shell.Resources>
+        <ResourceDictionary>
+            <Converter:ByteArrayToImageSourceConverter x:Key="bic"/>
+        </ResourceDictionary>
+    </Shell.Resources>
+
+
     <FlyoutItem FlyoutIcon="user.png" Title="Welcome" Appearing="HomePageAppears" >
         <Tab Icon="home.png" Title="Home" FlyoutIcon="home.png" >
             <ShellContent >
@@ -34,7 +44,7 @@
                                         <ViewCell>
                                             <Frame BackgroundColor="#1B9101" CornerRadius="20" Margin="0,5" Padding="5,0"  >
                                                 <StackLayout>
-                                                    <Image Source="{Binding ImageUrl}" Aspect="AspectFill"  WidthRequest="80"></Image>
+                                                    <Image Source="{Binding Image,Converter={StaticResource bic}}" Aspect="AspectFill"  WidthRequest="80"></Image>
                                                     <BoxView HeightRequest="1" BackgroundColor="White"></BoxView>
                                                     <Label Text="{Binding BookName}" FontAttributes="Bold" TextColor="White" FontSize="17" HorizontalTextAlignment="Start"></Label>
                                                     <Label Text="{Binding BookAuthor}" FontAttributes="Bold" TextColor="White" FontSize="14" HorizontalTextAlignment="Start"></Label>
@@ -57,7 +67,7 @@
                                         <ViewCell>
                                             <Frame BackgroundColor="#00B5B9" CornerRadius="20" Margin="0,5" Padding="5,0"  >
                                                 <StackLayout>
-                                                    <Image Source="{Binding Image}" Aspect="AspectFill"  WidthRequest="80"></Image>
+                                                    <Image Source="{Binding Image,Converter={StaticResource bic}}" Aspect="AspectFill"  WidthRequest="80"></Image>
                                                     <BoxView HeightRequest="1" BackgroundColor="White"></BoxView>
                                                     <Label Text="{Binding BookName}" FontAttributes="Bold" TextColor="White" FontSize="17" HorizontalTextAlignment="Start"></Label>
                                                     <Label Text="{Binding BookAuthor}" FontAttributes="Bold" TextColor="White" FontSize="14" HorizontalTextAlignment="Start"></Label>
