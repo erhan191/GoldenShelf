@@ -8,6 +8,7 @@ namespace GoldenShelf
     public partial class App : Application
     {
         public const string emailKey = "email";
+        public const string loggedInKey= "loggedIn";
         public App()
         {
             InitializeComponent();
@@ -15,6 +16,7 @@ namespace GoldenShelf
         }
 
         protected override void OnStart()
+
         {
         }
 
@@ -45,6 +47,28 @@ namespace GoldenShelf
                 Properties[emailKey] = value;
             }
         }
+
+        public string LoggedIn
+        {
+            get
+            {
+                if (Properties.ContainsKey(loggedInKey))
+                {
+                    SavePropertiesAsync();
+                    return Properties[loggedInKey].ToString();
+                }
+
+                return "";
+            }
+            set
+            {
+                Properties[loggedInKey] = value;
+            }
+        }
+
+
+
+
 
     }
 }

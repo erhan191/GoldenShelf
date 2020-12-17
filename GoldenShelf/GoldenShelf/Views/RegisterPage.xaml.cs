@@ -28,15 +28,14 @@ namespace GoldenShelf
                 await Navigation.PopAsync();
             };
             back.GestureRecognizers.Add(back_tap);
+
+
         }
 
         async void Button_Clicked(object sender, EventArgs e)
         {
             await DisplayAlert("Registration", "You have registered", "OK");
            
-            //To Reach email property in App.xaml
-            var app = Application.Current as App;
-            app.Email = userEmail.Text;
 
         }
          protected override void OnDisappearing()

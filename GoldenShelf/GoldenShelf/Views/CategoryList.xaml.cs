@@ -25,15 +25,11 @@ namespace GoldenShelf.Views
 
             var Donations = new List<Advert>
             {
-                new Advert {BookName="1984", BookAuthor = "George Orwell", BookCategory="Distopic", ImageUrl="https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg", BGColor="#1B9101"},
-                new Advert { BookName = "Animal Farm", BookAuthor = "George Orwell", BookCategory = "Distopic", ImageUrl = "https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg", BGColor="#1B9101" },
-                new Advert { BookName = "Little Prince", BookAuthor = "George Orwell", BookCategory = "Distopic", ImageUrl = "https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg", BGColor="#1B9101" }
+               
             };
             var Exchanges = new List<Advert>
             {
-                new Advert {BookName="1984", BookAuthor = "George Orwell", BookCategory="Distopic", ImageUrl="https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg", BGColor="#00B5B9"},
-                new Advert { BookName = "Animal Farm", BookAuthor = "George Orwell", BookCategory = "Distopic", ImageUrl = "https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg", BGColor="#00B5B9" },
-                new Advert { BookName = "Little Prince", BookAuthor = "George Orwell", BookCategory = "Distopic", ImageUrl = "https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg", BGColor="#00B5B9" }
+               
             };
             DonationsListView.ItemsSource = Donations;
             ExchangesListView.ItemsSource = Exchanges;

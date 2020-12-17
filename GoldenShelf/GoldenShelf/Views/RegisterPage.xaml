@@ -49,16 +49,19 @@
                     <StackLayout Orientation="Horizontal">
 
                         <Image Source="lock.png" HeightRequest="30" HorizontalOptions="Start"></Image>
-                        <Entry Text="{Binding Password}" Placeholder="Password" IsPassword="True" PlaceholderColor="Gray" WidthRequest="350" TextColor="Black"/>
+                        <Entry x:Name="password" Text="{Binding Password}" Placeholder="Password" IsPassword="True" PlaceholderColor="Gray" WidthRequest="350" TextColor="Black"/>
                     </StackLayout>
                 </Frame>
                 <Frame CornerRadius="10" Margin="10,3" BackgroundColor="#FFFFFF" Padding="10">
                     <StackLayout Orientation="Horizontal">
 
                         <Image Source="lock.png" HeightRequest="30" HorizontalOptions="Start"></Image>
-                        <Entry  Placeholder="Verify Password" IsPassword="True" PlaceholderColor="Gray" WidthRequest="350" TextColor="Black"/>
+                        <Entry x:Name="verifyPassword" Placeholder="Verify Password" IsPassword="True" PlaceholderColor="Gray" WidthRequest="350" TextColor="Black"/>
+
                     </StackLayout>
+
                 </Frame>
+
                 <Frame CornerRadius="10" Margin="10,0,10,3" BackgroundColor="#FFFFFF" Padding="10">
                     <StackLayout Orientation="Horizontal">
 
@@ -85,7 +88,7 @@
                 </Frame>
             </StackLayout>
 
-            <Button Text="REGISTER" BackgroundColor="#E6B614" CornerRadius="25" Margin="50,10" TextColor="White" Clicked="Button_Clicked" Command="{Binding SaveUserCommand}"/>
+            <Button x:Name="registerButton" Text="REGISTER" BackgroundColor="#E6B614" CornerRadius="25" Margin="50,10" TextColor="White" Clicked="Button_Clicked" Command="{Binding SaveUserCommand}"/>
         </StackLayout>
     </ScrollView>
 </ContentPage>

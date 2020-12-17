@@ -19,7 +19,7 @@ namespace GoldenShelf
         readonly static string dbName = "GoldenShelf";
         readonly static string collectionName = "Users";
         static MongoClient client;
-        
+
         private string _name;
         private string _password;
         private string _email;
@@ -27,8 +27,9 @@ namespace GoldenShelf
         private string _district;
         private string _image;
 
-        public UserViewModel() {
-            
+        public UserViewModel()
+        {
+
             SaveUserCommand = new Command(InsertUser);
             DeleteUserCommand = new Command(DeleteUser);
         }
@@ -37,19 +38,19 @@ namespace GoldenShelf
         public string Name
         {
             get { return _name; }
-            set { SetValue(ref _name, value); } 
+            set { SetValue(ref _name, value); }
         }
 
         public string Password
         {
             get { return _password; }
-            set { SetValue(ref _password, value);}
+            set { SetValue(ref _password, value); }
 
         }
         public string Email
         {
             get { return _email; }
-            set { SetValue(ref _email, value);} 
+            set { SetValue(ref _email, value); }
         }
 
         public string City
@@ -62,7 +63,7 @@ namespace GoldenShelf
             get { return _district; }
             set { SetValue(ref _district, value); }
         }
-      
+
         public string Image
         {
             get { return _image; }
@@ -75,7 +76,7 @@ namespace GoldenShelf
         {
             try
             {
-                var users = await usersCollection
+                var users = await MongoConnection
                     .Find(new BsonDocument())
                     .ToListAsync();
 
@@ -90,7 +91,7 @@ namespace GoldenShelf
         }
         public async Task<User> GetUserByEmail(String email)
         {
-            var user = await usersCollection
+            var user = await MongoConnection
                 .Find(f => f.email.Equals(email))
                 .FirstOrDefaultAsync();
 
@@ -109,17 +110,13 @@ namespace GoldenShelf
         {
             var newUser = new User
             {
-
                 name = Name,
                 password = Password,
                 email = Email,
                 city = City,
                 district = District,
                 image = Image
-                
             };
-
-           
 
             await MongoConnection.InsertOneAsync(newUser);
             await Application.Current.MainPage.Navigation.PopAsync();
@@ -129,11 +126,11 @@ namespace GoldenShelf
             var items = (User)obj;
             var result = await MongoConnection.DeleteOneAsync(tdi => tdi.email == items.email);
 
-          
+
         }
 
         #endregion
-      
+
         #region Command Functions
 
         public ICommand AddUserCommand { get; set; }
@@ -144,13 +141,14 @@ namespace GoldenShelf
         #endregion
 
         #region Connection
-        public IMongoCollection <User>MongoConnection
+        public IMongoCollection<User> MongoConnection
         {
             get
             {
                 if (client == null || usersCollection == null)
                 {
-                    var connectionString = "mongodb://admin:admin123@goldenshelf-shard-00-00.j5cx5.mongodb.net:27017,goldenshelf-shard-00-01.j5cx5.mongodb.net:27017,goldenshelf-shard-00-02.j5cx5.mongodb.net:27017/<dbname>?ssl=true&replicaSet=atlas-9097aj-shard-0&authSource=admin&retryWrites=true&w=majority";
+
+                    var connectionString = "mongodb://User:9MKh9Sdt4X5Xkt5z@goldenshelf-shard-00-00.j5cx5.mongodb.net:27017,goldenshelf-shard-00-01.j5cx5.mongodb.net:27017,goldenshelf-shard-00-02.j5cx5.mongodb.net:27017/<dbname>?ssl=true&replicaSet=atlas-9097aj-shard-0&authSource=admin&retryWrites=true&w=majority";
                     MongoClientSettings settings = MongoClientSettings.FromUrl(new MongoUrl(connectionString));
                     settings.SslSettings = new SslSettings { EnabledSslProtocols = SslProtocols.Tls12 };
                     client = new MongoClient(settings);
@@ -158,10 +156,10 @@ namespace GoldenShelf
 
 
                     var collectionSettings = new MongoCollectionSettings { ReadPreference = ReadPreference.Nearest };
-                    usersCollection = db.GetCollection<User>(collectionName,collectionSettings);
+                    usersCollection = db.GetCollection<User>(collectionName, collectionSettings);
 
                 }
-                   return usersCollection;
+                return usersCollection;
             }
         }
         #endregion

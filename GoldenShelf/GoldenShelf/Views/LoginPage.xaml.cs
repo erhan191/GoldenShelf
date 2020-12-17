@@ -17,7 +17,6 @@ namespace GoldenShelf
         {
             InitializeComponent();
             backclick();
-            
         }
 
         void backclick()
@@ -36,9 +35,34 @@ namespace GoldenShelf
             Password.IsPassword = Password.IsPassword ? false : true;
         }
 
-        private void Login_Clicked(object sender, EventArgs e)
+        private async void Login_Clicked(object sender, EventArgs e)
         {
             App.Current.MainPage = new HomePage();
+            UserViewModel userView = new UserViewModel();
+            var app = Application.Current as App;
+            User user;
+            try
+            {
+
+                user = await userView.GetUserByEmail(email.Text);
+
+                if (email.Text.Equals(user.email) && Password.Text.Equals(user.password))
+                {
+                    app.Email = email.Text;
+                    app.LoggedIn = "true";
+                    App.Current.MainPage = new HomePage();
+
+                }
+                else
+                {
+                    await DisplayAlert("Login Failed", "You entered incorrect email/password.Try Again ", "OK");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Kullanıcı bulunamadı", ex.Message, "OK");
+            }
         }
     }
 }

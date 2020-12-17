@@ -16,6 +16,7 @@ namespace GoldenShelf.Views
         public MyAdverts()
         {
             InitializeComponent();
+           
             var back_tap = new TapGestureRecognizer();
             back_tap.Tapped += async (s, e) =>
             {
@@ -24,9 +25,7 @@ namespace GoldenShelf.Views
             back.GestureRecognizers.Add(back_tap);
             var Adverts = new List<Advert>
             {
-                new Advert {BookName="1984", BookAuthor = "George Orwell", BookCategory="Distopic", ImageUrl="https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg", BGColor="#1B9101"},
-                new Advert { BookName = "Animal Farm", BookAuthor = "George Orwell", BookCategory = "Distopic", ImageUrl = "https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg", BGColor="#1B9101" },
-                new Advert { BookName = "Little Prince", BookAuthor = "George Orwell", BookCategory = "Distopic", ImageUrl = "https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg", BGColor="#1B9101" }
+              
             };
             MyAdvertsListView.ItemsSource = Adverts;
         }

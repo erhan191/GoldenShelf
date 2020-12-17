@@ -20,7 +20,7 @@
         <StackLayout Grid.Row="1" HorizontalOptions="Center" VerticalOptions="Center">
             <Frame CornerRadius="15" Margin="10,10" BackgroundColor="#FFFFFF" Padding="10">
                 <StackLayout Orientation="Horizontal">
-                    <Entry Placeholder="E-mail" PlaceholderColor="Gray" WidthRequest="275" TextColor="Black"/>
+                    <Entry x:Name ="email" Placeholder="E-mail" PlaceholderColor="Gray" WidthRequest="275" TextColor="Black"/>
                     <Image Source="user.png" HeightRequest="25" HorizontalOptions="EndAndExpand"/>
                 </StackLayout>
             </Frame>
@@ -34,7 +34,7 @@
                     </Image>
                 </StackLayout>
             </Frame>
-            <Button Clicked="Login_Clicked" Text="LOGIN" BackgroundColor="#E6B614" CornerRadius="25" Margin="50,5" TextColor="White" />
+            <Button Clicked="Login_Clicked" Text="LOGIN" BackgroundColor="#E6B614" CornerRadius="25" Margin="50,5" TextColor="White"/>
         </StackLayout>
     </Grid>
 

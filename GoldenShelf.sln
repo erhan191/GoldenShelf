@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoldenShelf.Android", "Gold
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoldenShelf.iOS", "GoldenShelf\GoldenShelf.iOS\GoldenShelf.iOS.csproj", "{8874776D-00BB-4BFA-97B0-00B347B577DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoldenShelf", "GoldenShelf\GoldenShelf\GoldenShelf.csproj", "{197C0D88-6E03-4C20-BE0D-6179C4E846CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoldenShelf", "GoldenShelf\GoldenShelf\GoldenShelf.csproj", "{197C0D88-6E03-4C20-BE0D-6179C4E846CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

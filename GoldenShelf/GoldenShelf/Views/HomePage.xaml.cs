@@ -1,39 +1,35 @@
-﻿using GoldenShelf.Models;
+﻿using GoldenShelf.ViewModels;
+using GoldenShelf.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using System.Collections.ObjectModel;
 
 namespace GoldenShelf.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class HomePage : Shell
     {
+        public ObservableCollection<Advert> DonationAdverts { get; set; }
+        public ObservableCollection<Advert> ExchangeAdverts { get; set; }
+
+        AdvertViewModel advertViewModel = new AdvertViewModel();
+
+
         public HomePage()
         {
             InitializeComponent();
-            var Category_Selected = new TapGestureRecognizer();
-            Category_Selected.Tapped += async (s, e) =>
-            {
-                await Navigation.PushAsync(new CategoryList());
-            };
-            categoryselect.GestureRecognizers.Add(Category_Selected);
-            var Donations = new List<Advert>
-            {
-                new Advert {BookName="1984", BookAuthor = "George Orwell", BookCategory="Distopic", ImageUrl="https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg", BGColor="#1B9101"},
-                new Advert { BookName = "Animal Farm", BookAuthor = "George Orwell", BookCategory = "Distopic", ImageUrl = "https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg", BGColor="#1B9101" },
-                new Advert { BookName = "Little Prince", BookAuthor = "George Orwell", BookCategory = "Distopic", ImageUrl = "https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg", BGColor="#1B9101" }
-            };
-            var Exchanges = new List<Advert>
-            {
-                new Advert {BookName="1984", BookAuthor = "George Orwell", BookCategory="Distopic", ImageUrl="https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg", BGColor="#00B5B9"},
-                new Advert { BookName = "Animal Farm", BookAuthor = "George Orwell", BookCategory = "Distopic", ImageUrl = "https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg", BGColor="#00B5B9" },
-                new Advert { BookName = "Little Prince", BookAuthor = "George Orwell", BookCategory = "Distopic", ImageUrl = "https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg", BGColor="#00B5B9" }
-            };
+
+            DonationAdverts = new ObservableCollection<Advert>();
+            ExchangeAdverts = new ObservableCollection<Advert>();
+
+            BindingContext = advertViewModel;
+
+         
             var Messages = new List<Message>
             {
                 new Message {Name="Animal Farm", Sender="John", MessageText="What dou you think about changin? ",ImageUrl="https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg",BGColor="#00B5B9" },
@@ -45,10 +41,19 @@ namespace GoldenShelf.Views
                 new Message {Name="Animal Farm", Sender="John", MessageText="What dou you think about changin? ",ImageUrl="https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg",BGColor="#00B5B9" },
                 new Message {Name="1984", Sender="Michael", MessageText="Have you given it to somebody?", ImageUrl="https://i.dr.com.tr/cache/500x400-0/originals/0000000064038-1.jpg",BGColor="#1B9101" }
             };
-            DonationsListView.ItemsSource = Donations;
-            ExchangesListView.ItemsSource = Exchanges;
+
+
+
+            DonationsListView.ItemsSource = DonationAdverts;
+            ExchangesListView.ItemsSource = ExchangeAdverts;
             MessageListView.ItemsSource = Messages;
+
         }
+
+        
+
+
+
         public async void MessageListview_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             var selectedInstructor = e.Item as Message;
@@ -77,6 +82,22 @@ namespace GoldenShelf.Views
 
         private void Share_Clicked(object sender, EventArgs e)
         {
+            var app = Application.Current as App;
+            Advert newAdvert = new Advert
+            {
+                BookAuthor = bookAuthor.Text,
+                BookCategory = bookCategoryPicker.SelectedItem.ToString(),
+                BookName = bookName.Text,
+                Condition = bookConditionPicker.SelectedItem.ToString(),
+                Description = description.Text,
+                ShareType = shareTypePicker.SelectedItem.ToString(),
+                PublisherEmail=app.Email
+
+            };
+            advertViewModel.InsertAdvert(newAdvert);
+
+            DisplayAlert("Successful", "You published a new advert succesfully", "OK");
+
             //Kitap Paylaş butonu
         }
 
@@ -94,9 +115,35 @@ namespace GoldenShelf.Views
         {
             await Navigation.PushAsync(new MyAdverts());
         }
-        private async void Profile_Tab_AppearingAsync(object sender, EventArgs e)
+        private async void HomePageAppears(object sender, EventArgs e)
         {
+            //-------------- To show Donation Adverts on the main page
+            var donationAdverts = await advertViewModel.GetDonationAdverts();
 
+            foreach (var item in donationAdverts)
+            {
+                if (!DonationAdverts.Any((arg) => arg.AdvertID == item.AdvertID))
+                    DonationAdverts.Add(item);
+            }
+            //------------------------------------------------------------------------
+            //-------------- To show Donation Adverts on the main page
+            var exchangeAdverts = await advertViewModel.GetExchangeAdverts();
+
+            foreach (var item in exchangeAdverts)
+            {
+                if (!ExchangeAdverts.Any((arg) => arg.AdvertID == item.AdvertID))
+                    ExchangeAdverts.Add(item);
+            }
+
+            //TODO: On Appering calısmıyor bu methodlar orada çalışmalı. 
+            //------------------------------------------------------------------------
+
+            
+
+
+            
+            //To show profile information to user using saved email 
+            
             UserViewModel userView = new UserViewModel();
             var app = Application.Current as App;
             User user;
