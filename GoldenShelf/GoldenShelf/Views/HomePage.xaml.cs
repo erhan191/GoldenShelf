@@ -3,11 +3,13 @@ using GoldenShelf.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.Collections.ObjectModel;
+using Plugin.Media;
+using Plugin.Media.Abstractions;
+using System.IO;
+using System.Drawing;
 
 namespace GoldenShelf.Views
 {
@@ -74,10 +76,59 @@ namespace GoldenShelf.Views
 
             await Navigation.PushAsync(new BookPage());
         }
-        private void Photo_Add(object sender, EventArgs e)
+        private async void AddPhotoFromGallery(object sender, EventArgs e)
         {
-            //Fotoğraf ekleme butonu
-            DisplayAlert("Add Photo", "Click here add some photo from your gallery!", "OK");
+           
+            await CrossMedia.Current.Initialize();
+
+            if (!CrossMedia.Current.IsPickPhotoSupported||! CrossMedia.Current.IsTakePhotoSupported)
+            {
+                await DisplayAlert("Not supported", "Your device does not currently support this functionality", "OK");
+                return;
+            }
+
+            var mediaOptions = new PickMediaOptions() {
+                PhotoSize = PhotoSize.Medium
+            };
+            var selectedImageFile = await CrossMedia.Current.PickPhotoAsync(mediaOptions);
+
+            if (selectedImage == null)
+            {
+                await DisplayAlert("Error", "Could not get the image , please try again.", "OK");
+            }
+            selectedImage.Source = ImageSource.FromStream(() => selectedImageFile.GetStream());
+
+            //TODO :Add selection of multichocice
+            
+        }
+        private async void TakePhoto(object sender, EventArgs e)
+        {
+
+
+
+            await CrossMedia.Current.Initialize();
+
+            if (!CrossMedia.Current.IsPickPhotoSupported || !CrossMedia.Current.IsTakePhotoSupported)
+            {
+                await DisplayAlert("Not supported", "Your device does not currently support this functionality", "OK");
+                return;
+            }
+
+            var mediaOptions = new PickMediaOptions()
+            {
+                PhotoSize = PhotoSize.Medium
+            };
+            var selectedImageFile = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions{AllowCropping = true });
+               
+
+            if (selectedImage == null)
+            {
+                await DisplayAlert("Error", "Could not get the image , please try again.", "OK");
+            }
+            selectedImage.Source = ImageSource.FromStream(() => selectedImageFile.GetStream());
+
+            //TODO :Add selection of multichocice
+
         }
 
         private void Share_Clicked(object sender, EventArgs e)
@@ -91,15 +142,19 @@ namespace GoldenShelf.Views
                 Condition = bookConditionPicker.SelectedItem.ToString(),
                 Description = description.Text,
                 ShareType = shareTypePicker.SelectedItem.ToString(),
-                PublisherEmail=app.Email
+                PublisherEmail = app.Email,
+               // Image=File.ReadAllBytes(selectedImage.Resources+"")
+                
 
-            };
+        };
             advertViewModel.InsertAdvert(newAdvert);
 
             DisplayAlert("Successful", "You published a new advert succesfully", "OK");
 
             //Kitap Paylaş butonu
         }
+       
+
 
         private async void EditProfile_Clicked(object sender, EventArgs e)
         {
