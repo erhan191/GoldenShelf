@@ -20,7 +20,7 @@ namespace GoldenShelf
         public string BookCategory { get; set; }
        
         [BsonElement("Image")]
-        public byte[] Image { get; set; }
+        public byte [] Image { get; set; }
 
         [BsonElement("ShareType")]
         public string ShareType { get; set; }

@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using System.IO;
-using System.Drawing;
+using System.Threading.Tasks;
 
 namespace GoldenShelf.Views
 {
@@ -32,7 +32,20 @@ namespace GoldenShelf.Views
 
             BindingContext = advertViewModel;
 
-         
+            var Categories = new List<Category>
+            {
+                new Category {CategoryName="Art & Photography",CategoryImage="https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg" },
+                new Category {CategoryName="Horror",CategoryImage="https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg" },
+                new Category {CategoryName="Classics",CategoryImage="https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg" },
+                new Category {CategoryName="Historical Fiction",CategoryImage="https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg" },
+                new Category {CategoryName="Classics",CategoryImage="https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg" },
+                new Category {CategoryName="Comic Book",CategoryImage="https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg" },
+                new Category {CategoryName="Literary Fiction",CategoryImage="https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg" },
+                new Category {CategoryName="Adventure",CategoryImage="https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg" },
+                new Category {CategoryName="Mystery",CategoryImage="https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg" }
+
+            };
+
             var Messages = new List<Message>
             {
                 new Message {Name="Animal Farm", Sender="John", MessageText="What dou you think about changin? ",ImageUrl="https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg",BGColor="#00B5B9" },
@@ -46,16 +59,32 @@ namespace GoldenShelf.Views
             };
 
 
-
+            CategoryListView.ItemsSource = Categories;
             DonationsListView.ItemsSource = DonationAdverts;
             ExchangesListView.ItemsSource = ExchangeAdverts;
             MessageListView.ItemsSource = Messages;
+            OnAppearing();
+
+        }
+        protected async override void OnAppearing()
+        {
+            base.OnAppearing();
+            await HomePageAppears();
+       
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
 
         }
 
-        
+        public async void CategoryListView_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            var selectedInstructor = e.Item as Category;
+            await Navigation.PushAsync(new CategoryList(selectedInstructor.CategoryName));
 
-
+        }
 
         public async void MessageListview_ItemTapped(object sender, ItemTappedEventArgs e)
         {
@@ -66,16 +95,16 @@ namespace GoldenShelf.Views
         public async void DonationListview_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             var myListView = (ListView)sender;
-            var myItem = myListView.SelectedItem;
+            var myItem = myListView.SelectedItem as Advert;
 
-            await Navigation.PushAsync(new BookPage());
+            await Navigation.PushAsync(new BookPage(myItem.BookName, myItem.BookAuthor, myItem.BookCategory, myItem.Condition, myItem.ShareType, myItem.Description, myItem.PublisherEmail,myItem.Image));
         }
         public async void ExchangeListview_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             var myListView = (ListView)sender;
-            var myItem = myListView.SelectedItem;
+            var myItem = myListView.SelectedItem as Advert;
 
-            await Navigation.PushAsync(new BookPage());
+            await Navigation.PushAsync(new BookPage(myItem.BookName, myItem.BookAuthor, myItem.BookCategory,myItem.Condition,myItem.ShareType, myItem.Description, myItem.PublisherEmail,myItem.Image));
         }
         private async void AddPhotoFromGallery(object sender, EventArgs e)
         {
@@ -118,7 +147,7 @@ namespace GoldenShelf.Views
             {
                 PhotoSize = PhotoSize.Medium
             };
-            var selectedImageFile = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions{AllowCropping = true });
+            var selectedImageFile = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions{AllowCropping = true ,SaveToAlbum=true});
                
 
             if (selectedImage == null)
@@ -127,10 +156,23 @@ namespace GoldenShelf.Views
             }
             selectedImage.Source = ImageSource.FromStream(() => selectedImageFile.GetStream());
             imagebyte = GetImageStreamAsBytes(selectedImageFile.GetStream());
-           
 
             //TODO :Add selection of multichocice
 
+        }
+        // Image to Byte Converter
+        public byte[] GetImageStreamAsBytes(Stream input)
+        {
+            var buffer = new byte[16 * 1024];
+            using (MemoryStream ms = new MemoryStream())
+            {
+                int read;
+                while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    ms.Write(buffer, 0, read);
+                }
+                return ms.ToArray();
+            }
         }
 
         private void Share_Clicked(object sender, EventArgs e)
@@ -147,28 +189,13 @@ namespace GoldenShelf.Views
                 PublisherEmail = app.Email,
                 Image = imagebyte
 
-
-            };
+        };
             advertViewModel.InsertAdvert(newAdvert);
 
             DisplayAlert("Successful", "You published a new advert succesfully", "OK");
 
-            //Kitap Paylaş butonu
         }
-
-        public byte[] GetImageStreamAsBytes(Stream input)
-        {
-            var buffer = new byte[16 * 1024];
-            using (MemoryStream ms = new MemoryStream())
-            {
-                int read;
-                while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
-                {
-                    ms.Write(buffer, 0, read);
-                }
-                return ms.ToArray();
-            }
-        }
+       
 
 
         private async void EditProfile_Clicked(object sender, EventArgs e)
@@ -185,7 +212,7 @@ namespace GoldenShelf.Views
         {
             await Navigation.PushAsync(new MyAdverts());
         }
-        private async void HomePageAppears(object sender, EventArgs e)
+        private async Task HomePageAppears()
         {
             //-------------- To show Donation Adverts on the main page
             var donationAdverts = await advertViewModel.GetDonationAdverts();
@@ -205,8 +232,10 @@ namespace GoldenShelf.Views
                     ExchangeAdverts.Add(item);
             }
 
-            //TODO: On Appering calısmıyor bu methodlar orada çalışmalı. 
             //------------------------------------------------------------------------
+
+            
+
 
             
             //To show profile information to user using saved email 
@@ -224,6 +253,7 @@ namespace GoldenShelf.Views
                 changeName.Text = user.name;
                 changeEmail.Text = user.email;
                 changeLocation.Text = user.city + "/" + user.district;
+                userImage.Source= ImageSource.FromStream(() => new MemoryStream(user.image));
 
             }
             catch (Exception ex)

@@ -5,16 +5,14 @@
              NavigationPage.HasNavigationBar="False"
              BackgroundColor="#EEEEEE">
     <ContentPage.Content>
-
-       
-            <StackLayout>
+        <StackLayout>
             <ScrollView>
                 <StackLayout>
                     <StackLayout>
 
                     <StackLayout>
                         <AbsoluteLayout>
-                                <Image Source="https://productimages.hepsiburada.net/s/33/500/10416090939442.jpg"  HeightRequest="300" WidthRequest="415"  Aspect="Fill" Margin="0,0,0,-10"></Image>
+                                <Image x:Name="adImage" HeightRequest="300" WidthRequest="415"  Aspect="Fill" Margin="0,0,0,-10"></Image>
                             <AbsoluteLayout Padding="20,20,0,0" >
                                 <Image x:Name="back" Source="backto.png" HeightRequest="45"  HorizontalOptions="Start">
                                     <Image.GestureRecognizers>
@@ -26,18 +24,18 @@
                     </StackLayout>
 
                     <StackLayout Background="#008080">
-                        <Label Text="Exchange" TextColor="Black" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" Margin="0,3,0,3"></Label>
+                        <Label x:Name="shareType" TextColor="Black" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" Margin="0,3,0,3"></Label>
                     </StackLayout>
                 </StackLayout>
 
                     <StackLayout Padding="30,10" >
-                        <Label Text="Animal Farm"  TextColor="Black" FontAttributes="Bold" FontSize="36"></Label>
-                        <Label Text="George Orwell"  TextColor="Black" FontSize="24" ></Label>
-                        <Label Text="Distopic"  TextColor="Black" FontSize="20" Padding="0,10"></Label>
+                        <Label x:Name="bookName"  TextColor="Black" FontAttributes="Bold" FontSize="36"></Label>
+                        <Label x:Name="bookAuthor"  TextColor="Black" FontSize="24" ></Label>
+                        <Label x:Name="bookCategory"  TextColor="Black" FontSize="20" Padding="0,10"></Label>
                     </StackLayout>
                    
                     <StackLayout Orientation="Horizontal" Padding="30,10,30,0">
-                        <Label Text="Like New" FontAttributes="Bold"  TextColor="Black" FontSize="18"></Label>
+                        <Label x:Name="condition" FontAttributes="Bold"  TextColor="Black" FontSize="18"></Label>
                 </StackLayout>
 
                 <StackLayout>
@@ -47,7 +45,7 @@
                     
 
                     <StackLayout Padding="30,10">
-                        <Label Text="it is in a really  shape. I have enjoyed reading it, I hope that you like it as well!"
+                        <Label x:Name="description"
                                FontSize="17" TextColor="Black"></Label>
                     </StackLayout>
 
@@ -55,9 +53,9 @@
                         <BoxView HeightRequest="2" BackgroundColor="#808080"></BoxView>
                     </StackLayout>
                         <StackLayout Padding="30,10" Orientation="Horizontal">
-                            <Label Text="John Black" FontSize="18" TextColor="Black" FontAttributes="Bold" HorizontalOptions="StartAndExpand"></Label>
+                            <Label x:Name="userName" FontSize="18" TextColor="Black" FontAttributes="Bold" HorizontalOptions="StartAndExpand"></Label>
                             <Image Source="location.png" HeightRequest="20" WidthRequest="20"></Image>
-                            <Label Text="Tepebaşı/Eskişehir" FontSize="18" TextColor="Black" FontAttributes="Italic" HorizontalOptions="End"></Label>
+                            <Label x:Name="location" FontSize="18" TextColor="Black" FontAttributes="Italic" HorizontalOptions="End"></Label>
                         </StackLayout>
                     </StackLayout>
                 </StackLayout>

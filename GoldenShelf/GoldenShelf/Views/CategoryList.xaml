@@ -7,10 +7,17 @@
              >
     <ContentPage.Content>
         <StackLayout>
-            <StackLayout Orientation="Horizontal" Padding="10,10,65,0">
-                <Image x:Name="back" Source="back.png" HeightRequest="25" HorizontalOptions="StartAndExpand"/>
-                <Image Source="goldenshelf.png" HeightRequest="40" HorizontalOptions="Center"></Image>
-                <Label Text="Category Name" FontAttributes="Bold" FontSize="30" TextColor="Black" HorizontalOptions="Center" Padding="0,0,20,0"></Label>
+            <StackLayout Orientation="Horizontal" Padding="10,10,0,0" VerticalOptions="Start">
+
+
+                <Frame BackgroundColor="#D2A612" CornerRadius="10" WidthRequest="350" HeightRequest="95">
+                    <StackLayout Orientation="Horizontal" >
+                        <Image x:Name="back" Source="back.png" HeightRequest="25" HorizontalOptions="Start"/>
+                        <Label x:Name="CategoryName" TextColor="White" FontSize="26" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Margin="0,0,37,0" />
+
+                    </StackLayout>
+                </Frame>
+
             </StackLayout>
             <StackLayout Padding="10,0" Orientation="Horizontal">
                 <ListView x:Name="DonationsListView" RowHeight="250" Header="" ItemTapped="DonationListview_ItemTapped">
@@ -29,7 +36,7 @@
                                         <Label Text="{Binding BookName}" FontAttributes="Bold" TextColor="White" FontSize="17" HorizontalTextAlignment="Start"></Label>
                                         <Label Text="{Binding BookAuthor}" FontAttributes="Bold" TextColor="White" FontSize="14" HorizontalTextAlignment="Start"></Label>
                                         <Label Text="{Binding BookCategory}" FontAttributes="Bold" TextColor="White" FontSize="12" HorizontalTextAlignment="Start"></Label>
-                                        <Label Text="Donation" FontAttributes="Bold" TextColor="Black" FontSize="14" HorizontalTextAlignment="Center"></Label>
+                                        <Label Text="Donation" FontAttributes="Bold" TextColor="Black" Opacity="0.5" FontSize="14" HorizontalTextAlignment="Center"></Label>
                                     </StackLayout>
                                 </Frame>
                             </ViewCell>
@@ -52,7 +59,7 @@
                                         <Label Text="{Binding BookName}" FontAttributes="Bold" TextColor="White" FontSize="17" HorizontalTextAlignment="Start"></Label>
                                         <Label Text="{Binding BookAuthor}" FontAttributes="Bold" TextColor="White" FontSize="14" HorizontalTextAlignment="Start"></Label>
                                         <Label Text="{Binding BookCategory}" FontAttributes="Bold" TextColor="White" FontSize="12" HorizontalTextAlignment="Start"></Label>
-                                        <Label Text="Exchange" FontAttributes="Bold" TextColor="Black" FontSize="14" HorizontalTextAlignment="Center"></Label>
+                                        <Label Text="Exchange" FontAttributes="Bold" TextColor="Black" Opacity="0.5" FontSize="14" HorizontalTextAlignment="Center"></Label>
                                     </StackLayout>
                                 </Frame>
                             </ViewCell>
@@ -61,6 +68,6 @@
                 </ListView>
             </StackLayout>
         </StackLayout>
-       
+
     </ContentPage.Content>
 </ContentPage>

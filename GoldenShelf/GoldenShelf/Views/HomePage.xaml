@@ -6,8 +6,8 @@
              FlyoutBackgroundColor="#41aea9"
              Shell.NavBarIsVisible="False"
             Shell.TabBarBackgroundColor="#ffffff"
-            Shell.UnselectedColor="Black"
-            Shell.TabBarTitleColor="#E6B614">
+       Shell.UnselectedColor="Black"
+       Shell.TabBarTitleColor="#E6B614">
 
 
     <Shell.Resources>
@@ -15,9 +15,9 @@
             <Converter:ByteArrayToImageSourceConverter x:Key="bic"/>
         </ResourceDictionary>
     </Shell.Resources>
-
-
-    <FlyoutItem FlyoutIcon="user.png" Title="Welcome" Appearing="HomePageAppears" >
+    
+    
+    <FlyoutItem FlyoutIcon="user.png" Title="Welcome"  >
         <Tab Icon="home.png" Title="Home" FlyoutIcon="home.png" >
             <ShellContent >
                 <ContentPage BackgroundColor="#eeeeee">
@@ -49,7 +49,7 @@
                                                     <Label Text="{Binding BookName}" FontAttributes="Bold" TextColor="White" FontSize="17" HorizontalTextAlignment="Start"></Label>
                                                     <Label Text="{Binding BookAuthor}" FontAttributes="Bold" TextColor="White" FontSize="14" HorizontalTextAlignment="Start"></Label>
                                                     <Label Text="{Binding BookCategory}" FontAttributes="Bold" TextColor="White" FontSize="12" HorizontalTextAlignment="Start"></Label>
-                                                    <Label Text="Donation" FontAttributes="Bold" TextColor="Black" FontSize="14" HorizontalTextAlignment="Center"></Label>
+                                                    <Label Text="Donation" FontAttributes="Bold" TextColor="Black" Opacity="0.5" FontSize="14" HorizontalTextAlignment="Center"></Label>
                                                 </StackLayout>
                                             </Frame>
                                         </ViewCell>
@@ -72,7 +72,7 @@
                                                     <Label Text="{Binding BookName}" FontAttributes="Bold" TextColor="White" FontSize="17" HorizontalTextAlignment="Start"></Label>
                                                     <Label Text="{Binding BookAuthor}" FontAttributes="Bold" TextColor="White" FontSize="14" HorizontalTextAlignment="Start"></Label>
                                                     <Label Text="{Binding BookCategory}" FontAttributes="Bold" TextColor="White" FontSize="12" HorizontalTextAlignment="Start"></Label>
-                                                    <Label Text="Exchange" FontAttributes="Bold" TextColor="Black" FontSize="14" HorizontalTextAlignment="Center"></Label>
+                                                    <Label Text="Exchange" FontAttributes="Bold" TextColor="Black" Opacity="0.5" FontSize="14" HorizontalTextAlignment="Center"></Label>
                                                 </StackLayout>
                                             </Frame>
                                         </ViewCell>
@@ -90,86 +90,43 @@
             <ShellContent>
                 <ContentPage BackgroundColor="#EEEEEE">
                     <ScrollView>
-                    <AbsoluteLayout  VerticalOptions="StartAndExpand" Padding="0,5,0,0">
-                        <Image Source="goldenshelf.png" HeightRequest="50" WidthRequest="50"  AbsoluteLayout.LayoutBounds="10,10"></Image>
-                        <Frame CornerRadius="45" BackgroundColor="#ECE0BD" HeightRequest="5" WidthRequest="210" AbsoluteLayout.LayoutBounds="60,10">
-                        </Frame>
-                        <Image Source="search.png" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" Opacity="0.5" AbsoluteLayout.LayoutBounds="70,25" ></Image>
-                        <Entry Placeholder="Search anything.." PlaceholderColor="DarkGray" FontSize="15" WidthRequest="180" VerticalOptions="End" AbsoluteLayout.LayoutBounds="100,15"></Entry>
-                        <ImageButton BackgroundColor="Transparent" Clicked="FilterButton_Clicked" Source="filter.png" HeightRequest="40" AbsoluteLayout.LayoutBounds="310,15"></ImageButton>
-                        <Image Source="settings.png" HeightRequest="30" AbsoluteLayout.LayoutBounds="365,20"></Image>
-                           
-                            <Grid AbsoluteLayout.LayoutBounds="10,80" Padding="10" >
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="200" />
-                                <RowDefinition Height="200" />
-                                <RowDefinition Height="200" />
-                                <RowDefinition Height="200" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="180" />
-                                    <ColumnDefinition Width="180" />
-                                </Grid.ColumnDefinitions>
-                                
-                                <Frame BackgroundColor="#daa520" CornerRadius="20" Grid.Row="0" Grid.Column="0" >
-                                    <StackLayout>
-                                        <Label Text="Biographies" FontAttributes="Bold" TextColor="Black" FontSize="17" HorizontalTextAlignment="Center"></Label>
-                                        <BoxView HeightRequest="1" BackgroundColor="Black"></BoxView>
-                                        <Image x:Name="categoryselect" Source="https://images-na.ssl-images-amazon.com/images/I/81VStYnDGrL.jpg" Aspect="AspectFill" WidthRequest="100"></Image>
-                                    </StackLayout>
+                        <StackLayout>
+
+
+                            <AbsoluteLayout  VerticalOptions="StartAndExpand" Padding="0,5,0,0">
+                                <Image Source="goldenshelf.png" HeightRequest="50" WidthRequest="50"  AbsoluteLayout.LayoutBounds="10,10"></Image>
+                                <Frame CornerRadius="45" BackgroundColor="#ECE0BD" HeightRequest="5" WidthRequest="210" AbsoluteLayout.LayoutBounds="60,10">
                                 </Frame>
-                                <Frame BackgroundColor="#daa520" CornerRadius="20" Grid.Row="1" Grid.Column="0" >
-                                    <StackLayout>
-                                        <Label Text="Classics" FontAttributes="Bold" TextColor="Black" FontSize="17" HorizontalTextAlignment="Center"></Label>
-                                        <BoxView HeightRequest="1" BackgroundColor="Black"></BoxView>
-                                        <Image  Source="https://images-na.ssl-images-amazon.com/images/I/81VStYnDGrL.jpg" Aspect="AspectFill" WidthRequest="100" ></Image>
-                                    </StackLayout>
-                                </Frame>
-                                <Frame BackgroundColor="#daa520" CornerRadius="20" Grid.Row="2" Grid.Column="0" >
-                                    <StackLayout>
-                                        <Label Text="Mystery" FontAttributes="Bold" TextColor="Black" FontSize="17" HorizontalTextAlignment="Center"></Label>
-                                        <BoxView HeightRequest="1" BackgroundColor="Black"></BoxView>
-                                        <Image Source="https://images-na.ssl-images-amazon.com/images/I/81VStYnDGrL.jpg" Aspect="AspectFill" WidthRequest="100"></Image>
-                                    </StackLayout>
-                                </Frame>
-                                <Frame BackgroundColor="#daa520" CornerRadius="20" Grid.Row="3" Grid.Column="0" >
-                                    <StackLayout>
-                                        <Label Text="Fantasy" FontAttributes="Bold" TextColor="Black" FontSize="17" HorizontalTextAlignment="Center"></Label>
-                                        <BoxView HeightRequest="1" BackgroundColor="Black"></BoxView>
-                                        <Image Source="https://images-na.ssl-images-amazon.com/images/I/81VStYnDGrL.jpg" Aspect="AspectFill" WidthRequest="100" ></Image>
-                                    </StackLayout>
-                                </Frame>
-                                <Frame BackgroundColor="#daa520" CornerRadius="20" Grid.Row="0" Grid.Column="1" >
-                                    <StackLayout>
-                                        <Label Text="Historical Fiction" FontAttributes="Bold" TextColor="Black" FontSize="17" HorizontalTextAlignment="Center"></Label>
-                                        <BoxView HeightRequest="1" BackgroundColor="Black"></BoxView>
-                                        <Image Source="https://images-na.ssl-images-amazon.com/images/I/81VStYnDGrL.jpg" Aspect="AspectFill" WidthRequest="100"></Image>
-                                    </StackLayout>
-                                </Frame>
-                                <Frame BackgroundColor="#daa520" CornerRadius="20" Grid.Row="1" Grid.Column="1" >
-                                    <StackLayout>
-                                        <Label Text="Romance" FontAttributes="Bold" TextColor="Black" FontSize="17" HorizontalTextAlignment="Center"></Label>
-                                        <BoxView HeightRequest="1" BackgroundColor="Black"></BoxView>
-                                        <Image Source="https://images-na.ssl-images-amazon.com/images/I/81VStYnDGrL.jpg" Aspect="AspectFill" WidthRequest="100"></Image>
-                                    </StackLayout>
-                                </Frame>
-                                <Frame BackgroundColor="#daa520" CornerRadius="20" Grid.Row="2" Grid.Column="1" >
-                                    <StackLayout>
-                                        <Label Text="Horror" FontAttributes="Bold" TextColor="Black" FontSize="17" HorizontalTextAlignment="Center"></Label>
-                                        <BoxView HeightRequest="1" BackgroundColor="Black"></BoxView>
-                                        <Image Source="https://images-na.ssl-images-amazon.com/images/I/81VStYnDGrL.jpg" Aspect="AspectFill" WidthRequest="100"></Image>
-                                    </StackLayout>
-                                </Frame>
-                                <Frame BackgroundColor="#daa520" CornerRadius="20" Grid.Row="3" Grid.Column="1" >
-                                    <StackLayout>
-                                        <Label Text="Sci-Fi" FontAttributes="Bold" TextColor="Black" FontSize="17" HorizontalTextAlignment="Center"></Label>
-                                        <BoxView HeightRequest="1" BackgroundColor="Black"></BoxView>
-                                        <Image Source="https://images-na.ssl-images-amazon.com/images/I/81VStYnDGrL.jpg" Aspect="AspectFill" WidthRequest="100"></Image>
-                                    </StackLayout>
-                                </Frame>
-                            </Grid> 
-                        </AbsoluteLayout>
+                                <Image Source="search.png" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" Opacity="0.5" AbsoluteLayout.LayoutBounds="70,25" ></Image>
+                                <Entry Placeholder="Search anything.." PlaceholderColor="DarkGray" FontSize="15" WidthRequest="180" VerticalOptions="End" AbsoluteLayout.LayoutBounds="100,15"></Entry>
+                                <ImageButton BackgroundColor="Transparent" Clicked="FilterButton_Clicked" Source="filter.png" HeightRequest="40" AbsoluteLayout.LayoutBounds="310,15"></ImageButton>
+                                <Image Source="settings.png" HeightRequest="30" AbsoluteLayout.LayoutBounds="365,20"></Image>
+                            </AbsoluteLayout>
+                            <StackLayout Padding="10,0">
+                                <ListView x:Name="CategoryListView" RowHeight="150" Grid.Row="1" ItemTapped="CategoryListView_ItemTapped">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <ViewCell>
+                                                <Frame CornerRadius="15" Padding="5" Margin="5" BackgroundColor="#D2A612" >
+
+                                                    <StackLayout Orientation="Horizontal" Spacing="5" >
+                                                        <Image Source="{Binding CategoryImage}" Margin="2" HeightRequest="120"/>
+                                                        <Label Text="{Binding CategoryName}" TextColor="White" FontSize="23" FontAttributes="Bold" VerticalOptions="Center" Margin="35,0,0,0"/>
+
+                                                    </StackLayout>
+
+
+                                                </Frame>
+
+                                            </ViewCell>
+
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </StackLayout>
+                        </StackLayout>
                     </ScrollView>
+
                 </ContentPage>
             </ShellContent>
         </Tab>
@@ -330,7 +287,7 @@
                                 <BoxView HeightRequest="1" Color="Black" Opacity="0.5"></BoxView>
                                 <StackLayout Orientation="Horizontal" Padding="0,20,40,20" >
                                     <StackLayout Padding="20,0,0,0">
-                                        <Image x:Name="user" Source="user.png" WidthRequest="120" HeightRequest="120" HorizontalOptions="StartAndExpand"></Image>
+                                        <Image x:Name="userImage"  WidthRequest="120" HeightRequest="120" HorizontalOptions="StartAndExpand"></Image>
                                     </StackLayout>
                                     <StackLayout HorizontalOptions="CenterAndExpand">
                                         <Label x:Name="profileTabName"  TextColor="#000000" FontSize="30" FontAttributes="Bold" HorizontalTextAlignment="Start"></Label>

@@ -23,7 +23,7 @@ namespace GoldenShelf
         public string district { get; set; }
 
         [BsonElement("Image")]
-        public string image { get; set; }
+        public byte[] image { get; set; }
 
 
 

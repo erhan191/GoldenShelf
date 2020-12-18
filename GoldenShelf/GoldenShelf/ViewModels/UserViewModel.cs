@@ -25,7 +25,7 @@ namespace GoldenShelf
         private string _email;
         private string _city;
         private string _district;
-        private string _image;
+        private byte[] _image;
 
         public UserViewModel()
         {
@@ -64,7 +64,7 @@ namespace GoldenShelf
             set { SetValue(ref _district, value); }
         }
 
-        public string Image
+        public byte[] Image
         {
             get { return _image; }
             set { SetValue(ref _image, value); }
@@ -121,6 +121,24 @@ namespace GoldenShelf
             await MongoConnection.InsertOneAsync(newUser);
             await Application.Current.MainPage.Navigation.PopAsync();
         }
+        public async void InsertUser(User newUser)
+        {
+            await MongoConnection.InsertOneAsync(newUser);
+            await Application.Current.MainPage.Navigation.PopAsync();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
         public async void DeleteUser(object obj)
         {
             var items = (User)obj;

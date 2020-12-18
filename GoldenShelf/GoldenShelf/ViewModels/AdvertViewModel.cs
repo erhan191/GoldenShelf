@@ -169,7 +169,7 @@ namespace GoldenShelf.ViewModels
               Condition=Condition,
               ShareType=ShareType,
               PublisherEmail=PublisherEmail,
-              Description=Description,
+              Description=Description
 
             };
 
