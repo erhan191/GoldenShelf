@@ -9,10 +9,17 @@ namespace GoldenShelf
     {
         public const string emailKey = "email";
         public const string loggedInKey= "loggedIn";
+       
         public App()
         {
             InitializeComponent();
-            MainPage = new NavigationPage(new intro3());
+            
+            if(LoggedIn=="false")
+            MainPage = new NavigationPage(new intro1());
+           
+           if (LoggedIn == "true")
+              MainPage = new HomePage();
+
         }
 
         protected override void OnStart()
@@ -47,7 +54,7 @@ namespace GoldenShelf
                 Properties[emailKey] = value;
             }
         }
-
+      
         public string LoggedIn
         {
             get

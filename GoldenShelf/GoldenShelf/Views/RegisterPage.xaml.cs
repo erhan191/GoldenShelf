@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using System.Threading.Tasks;
 
 namespace GoldenShelf
 {
@@ -20,8 +21,8 @@ namespace GoldenShelf
             BindingContext = new LocationViewModel();
 
             UserViewModel user = new UserViewModel();
-           
-            
+
+
             var back_tap = new TapGestureRecognizer();
             back_tap.Tapped += async (s, e) =>
             {
@@ -35,26 +36,60 @@ namespace GoldenShelf
         async void Button_Clicked(object sender, EventArgs e)
         {
             UserViewModel viewModel = new UserViewModel();
-            var user = new User
+            var SelectedCity = "";
+            var SelectedDistrict = "";
+            if (cityPicker.SelectedItem != null ||districtPicker.SelectedItem != null)
             {
-                name = name.Text,
-                email = email.Text,
-                city = cityPicker.SelectedItem.ToString(),
-                district = districtPicker.SelectedItem.ToString(),
-                password=password.Text,
-                image=imagebyte
-            };
-            viewModel.InsertUser(user);
-            
+                var selectedItem = cityPicker.SelectedItem as City;
+                SelectedCity = selectedItem.Value;
+                var selectedItem2 = districtPicker.SelectedItem as City;
+                SelectedDistrict = selectedItem2.Value;
+            }
+          
+            if (name.Text != null && email.Text != null && SelectedCity.ToString() != "" && SelectedDistrict.ToString() != "")
+            {
+                if (password.Text == verifyPassword.Text)
+                {
 
 
-            await DisplayAlert("Registration", "You have registered", "OK");
-           
+                    var user = new User
+                    {
+                        name = name.Text,
+                        email = email.Text,
+                        city = SelectedCity.ToString(),
+                        district = SelectedDistrict.ToString(),
+                        password = password.Text,
+                        image = imagebyte
+                    };
+                    viewModel.InsertUser(user);
+                    await DisplayAlert("Registration", "You have registered successfully.", "OK");
+                }
+                else
+                {
+                    Error.Text = "Passwords do not match!";
+                    Error.IsVisible = true;
+                    await Task.Delay(2000);
+                    Error.IsVisible = false;
+                }
+            }
+            else
+            {
+                Error.Text = "Please fill all of them!";
+                Error.IsVisible = true;
+                await Task.Delay(2000);
+                Error.IsVisible = false;
+            }
+
+
+
+
+
+
         }
-         protected override void OnDisappearing()
+        protected override void OnDisappearing()
         {
             base.OnDisappearing();
-           
+
         }
 
         private async void AddPhotoFromGallery(object sender, EventArgs e)

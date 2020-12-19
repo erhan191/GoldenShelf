@@ -27,6 +27,7 @@ namespace GoldenShelf.ViewModels
         private string _description;
         private byte[] _image;
 
+       
         public AdvertViewModel()
         {
             SaveAdvertCommand = new Command(InsertAdvert);
@@ -174,12 +175,11 @@ namespace GoldenShelf.ViewModels
             };
 
             await MongoConnection.InsertOneAsync(newAdvert);
-            await Application.Current.MainPage.Navigation.PopAsync();
         }
         public async void InsertAdvert(Advert newAdvert)
         {
             await MongoConnection.InsertOneAsync(newAdvert);
-            await Application.Current.MainPage.Navigation.PopAsync();
+           
         }
 
 

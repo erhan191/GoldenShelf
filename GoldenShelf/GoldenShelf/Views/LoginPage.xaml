@@ -18,15 +18,15 @@
         </StackLayout>
 
         <StackLayout Grid.Row="1" HorizontalOptions="Center" VerticalOptions="Center">
-            <Frame CornerRadius="15" Margin="10,10" BackgroundColor="#FFFFFF" Padding="10">
+            <Frame x:Name="emailFrame" CornerRadius="15" Margin="10,30,10,0" BackgroundColor="#FFFFFF" Padding="10">
                 <StackLayout Orientation="Horizontal">
                     <Entry x:Name ="email" Placeholder="E-mail" PlaceholderColor="Gray" WidthRequest="275" TextColor="Black"/>
                     <Image Source="user.png" HeightRequest="25" HorizontalOptions="EndAndExpand"/>
                 </StackLayout>
             </Frame>
-            <Frame CornerRadius="15" Margin="10,0,10,0" BackgroundColor="#FFFFFF" Padding="10">
+            <Frame x:Name="passwordFrame" CornerRadius="15" Margin="10,0,10,0" BackgroundColor="#FFFFFF" Padding="10">
                 <StackLayout Orientation="Horizontal">
-                    <Entry Placeholder="Password" IsPassword="True" PlaceholderColor="Gray" WidthRequest="275" TextColor="Black" x:Name="Password"/>
+                    <Entry  Placeholder="Password" IsPassword="True" PlaceholderColor="Gray" WidthRequest="275" TextColor="Black" x:Name="Password"/>
                     <Image Source="visibility.png" HeightRequest="25" HorizontalOptions="EndAndExpand" x:Name="EyeVisible">
                         <Image.GestureRecognizers>
                             <TapGestureRecognizer Tapped="ShowPass" NumberOfTapsRequired="1" />
@@ -35,6 +35,7 @@
                 </StackLayout>
             </Frame>
             <Button Clicked="Login_Clicked" Text="LOGIN" BackgroundColor="#E6B614" CornerRadius="25" Margin="50,5" TextColor="White"/>
+            <Label x:Name="Error" HorizontalOptions="Center"  TextColor="Transparent" FontSize="15" Padding="0,5"></Label>
         </StackLayout>
     </Grid>
 

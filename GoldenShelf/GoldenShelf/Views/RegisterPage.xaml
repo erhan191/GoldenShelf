@@ -51,7 +51,7 @@
                     <StackLayout Orientation="Horizontal">
 
                         <Image Source="lock.png" HeightRequest="30" HorizontalOptions="Start"></Image>
-                        <Entry Placeholder="Verify Password" IsPassword="True" PlaceholderColor="Gray" WidthRequest="350" TextColor="Black"/>
+                        <Entry x:Name="verifyPassword" Placeholder="Verify Password" IsPassword="True" PlaceholderColor="Gray" WidthRequest="350" TextColor="Black"/>
                     </StackLayout>
                 </Frame>
                 <Frame CornerRadius="10" Margin="10,0,10,3" BackgroundColor="#FFFFFF" Padding="10">
@@ -71,13 +71,15 @@
 
                         <Image Source="district.png" HeightRequest="30" HorizontalOptions="Start"></Image>
                         <Picker x:Name="districtPicker" TextColor="Black" Title="District" TitleColor="Gray" WidthRequest="300" 
-                                ItemsSource="{Binding MyCity}">
+                                ItemsSource="{Binding MyCity}"
+                                ItemDisplayBinding="{Binding Value}"
+                                SelectedItem="{Binding SelectedCity}">
                         </Picker>
                     </StackLayout>
                 </Frame>
             </StackLayout>
-
-            <Button Text="REGISTER" BackgroundColor="#E6B614" CornerRadius="25" Margin="50,10" TextColor="White" Clicked="Button_Clicked"/>
+            <Label x:Name="Error" IsVisible="False" HorizontalOptions="Center"  TextColor="Red" FontSize="15"></Label>
+            <Button x:Name="Register" Text="REGISTER" BackgroundColor="#E6B614" CornerRadius="25" Margin="50,10" TextColor="White" Clicked="Button_Clicked"/>
         </StackLayout>
     </ScrollView>
 </ContentPage>

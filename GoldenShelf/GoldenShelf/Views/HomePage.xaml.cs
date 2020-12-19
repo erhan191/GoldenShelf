@@ -10,6 +10,7 @@ using Plugin.Media;
 using Plugin.Media.Abstractions;
 using System.IO;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace GoldenShelf.Views
 {
@@ -22,16 +23,16 @@ namespace GoldenShelf.Views
 
         AdvertViewModel advertViewModel = new AdvertViewModel();
 
-
+       
         public HomePage()
         {
             InitializeComponent();
 
             DonationAdverts = new ObservableCollection<Advert>();
             ExchangeAdverts = new ObservableCollection<Advert>();
-
+            
             BindingContext = advertViewModel;
-
+            
             var Categories = new List<Category>
             {
                 new Category {CategoryName="Art & Photography",CategoryImage="https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg" },
@@ -65,7 +66,37 @@ namespace GoldenShelf.Views
             MessageListView.ItemsSource = Messages;
             OnAppearing();
 
+            DonationsListView.RefreshCommand = new Command(async () => {
+                DonationsListView.RefreshControlColor = Color.FromHex("#1B9101");
+                DonationsListView.IsRefreshing = true;
+                var donationAdverts = await advertViewModel.GetDonationAdverts();
+
+                foreach (var item in donationAdverts)
+                {
+                    if (!DonationAdverts.Any((arg) => arg.AdvertID == item.AdvertID))
+                        DonationAdverts.Add(item);
+                }
+                DonationsListView.ItemsSource = DonationAdverts;
+                DonationsListView.IsRefreshing = false;
+            });
+          
+              ExchangesListView.RefreshCommand = new Command(async () => {
+                ExchangesListView.RefreshControlColor = Color.FromHex("#00B5B9");
+                ExchangesListView.IsRefreshing = true;
+                var exchangeAdverts = await advertViewModel.GetExchangeAdverts();
+
+                foreach (var item in exchangeAdverts)
+                {
+                    if (!ExchangeAdverts.Any((arg) => arg.AdvertID == item.AdvertID))
+                        ExchangeAdverts.Add(item);
+                }
+                ExchangesListView.ItemsSource = ExchangeAdverts;
+                ExchangesListView.IsRefreshing = false;
+            });
+            
         }
+
+
         protected async override void OnAppearing()
         {
             base.OnAppearing();
@@ -178,24 +209,45 @@ namespace GoldenShelf.Views
         private void Share_Clicked(object sender, EventArgs e)
         {
             var app = Application.Current as App;
-            Advert newAdvert = new Advert
+            try
             {
-                BookAuthor = bookAuthor.Text,
-                BookCategory = bookCategoryPicker.SelectedItem.ToString(),
-                BookName = bookName.Text,
-                Condition = bookConditionPicker.SelectedItem.ToString(),
-                Description = description.Text,
-                ShareType = shareTypePicker.SelectedItem.ToString(),
-                PublisherEmail = app.Email,
-                Image = imagebyte
+                Advert newAdvert = new Advert
+                {
+                    BookAuthor = bookAuthor.Text,
+                    BookCategory = bookCategoryPicker.SelectedItem.ToString(),
+                    BookName = bookName.Text,
+                    Condition = bookConditionPicker.SelectedItem.ToString(),
+                    Description = description.Text,
+                    ShareType = shareTypePicker.SelectedItem.ToString(),
+                    PublisherEmail = app.Email,
+                    Image = imagebyte
 
-        };
-            advertViewModel.InsertAdvert(newAdvert);
+                };
+                advertViewModel.InsertAdvert(newAdvert);
+
+            }
+            catch
+            {
+                DisplayAlert("Error", "Please fill required spaces and try again.", "OK");
+                return;
+            }
+
+
+
 
             DisplayAlert("Successful", "You published a new advert succesfully", "OK");
+            bookAuthor.Text = "";
+            bookCategoryPicker.SelectedItem = null;
+            bookName.Text = "";
+            bookConditionPicker.SelectedItem = null;
+            description.Text = "";
+            shareTypePicker.SelectedItem = null;
+            imagebyte = null;
+
+
 
         }
-       
+
 
 
         private async void EditProfile_Clicked(object sender, EventArgs e)
@@ -216,6 +268,9 @@ namespace GoldenShelf.Views
         {
             //-------------- To show Donation Adverts on the main page
             var donationAdverts = await advertViewModel.GetDonationAdverts();
+            
+            //List reversed to show people last adverts.
+            donationAdverts.Reverse();
 
             foreach (var item in donationAdverts)
             {
@@ -225,7 +280,9 @@ namespace GoldenShelf.Views
             //------------------------------------------------------------------------
             //-------------- To show Donation Adverts on the main page
             var exchangeAdverts = await advertViewModel.GetExchangeAdverts();
-
+           
+            //List reversed to show people last adverts.
+            exchangeAdverts.Reverse();
             foreach (var item in exchangeAdverts)
             {
                 if (!ExchangeAdverts.Any((arg) => arg.AdvertID == item.AdvertID))
@@ -260,6 +317,16 @@ namespace GoldenShelf.Views
             {
                 await DisplayAlert("Kullanıcı bulunamadı", ex.Message, "OK");
             }
+
+        }
+
+        private void Logout_Clicked(object sender, EventArgs e)
+        {
+            // Alert Yes No
+            var app = Application.Current as App;
+            app.Email = "";
+            app.LoggedIn = "false";
+            App.Current.MainPage =new NavigationPage(new MainPage());
 
         }
     }

@@ -20,8 +20,8 @@ namespace GoldenShelf.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-        private ObservableCollection<string> _myCity;
-        public ObservableCollection<string> MyCity
+        private ObservableCollection<City> _myCity;
+        public ObservableCollection<City> MyCity
         {
             get { return _myCity; }
             set
@@ -45,35 +45,37 @@ namespace GoldenShelf.ViewModels
                     _selectedCity = value;
                     if (_selectedCity.Value.Equals("Eskişehir"))
                     {
-                        MyCity = new ObservableCollection<string>()
-                    {
-                         "Tepebaşı",
-                        "Odunpazarı"
+                        MyCity = new ObservableCollection<City>()
+                        {
+                            new City() { Key = 1, Value = "Tepebaşı" },
+                            new City() { Key = 2, Value = "Odunpazarı" }
                         };
                     }
                     if (_selectedCity.Value.Equals("Ankara"))
                     {
-                        MyCity = new ObservableCollection<string>()
-                    {
-                         "Kızılay",
-                         "Etimesgut"};
+                        MyCity = new ObservableCollection<City>()
+                        {
+                            new City() { Key = 1, Value = "Kızılay" },
+                            new City() { Key = 2, Value = "Etimesgut" }
+                        };
                     }
                     if (_selectedCity.Value.Equals("İstanbul"))
                     {
-                        MyCity = new ObservableCollection<string>()
-                    {
-                         "Kadıköy",
-                         "Beşiktaş"};
-                    }
+                        MyCity = new ObservableCollection<City>()
+                        {
+                            new City() { Key = 1, Value = "Kadıköy" },
+                            new City() { Key = 2, Value = "Beşiktaş" }
+                        };
+                        
 
+                    }
                 }
             }
         }
-
         public LocationViewModel()
         {
             CitiesList = GetCities().OrderBy(t => t.Value).ToList();
-            MyCity = new ObservableCollection<string>();
+            MyCity = new ObservableCollection<City>();
         }
         public List<City> GetCities()
         {
@@ -81,7 +83,7 @@ namespace GoldenShelf.ViewModels
             {
                 new City(){Key =  1, Value= "Eskişehir"},
                 new City(){Key =  2, Value= "Ankara"},
-                new City(){Key =  2, Value= "İstanbul"}
+                new City(){Key =  3, Value= "İstanbul"}
             };
 
             return cities;

@@ -17,6 +17,7 @@ namespace GoldenShelf
         {
             InitializeComponent();
             backclick();
+          
         }
 
         void backclick()
@@ -37,31 +38,61 @@ namespace GoldenShelf
 
         private async void Login_Clicked(object sender, EventArgs e)
         {
-            App.Current.MainPage = new HomePage();
-            UserViewModel userView = new UserViewModel();
-            var app = Application.Current as App;
-            User user;
-            try
+            if (email.Text != null)
             {
-
-                user = await userView.GetUserByEmail(email.Text);
-
-                if (email.Text.Equals(user.email) && Password.Text.Equals(user.password))
+                if (Password.Text != null)
                 {
-                    app.Email = email.Text;
-                    app.LoggedIn = "true";
-                    App.Current.MainPage = new HomePage();
 
+
+                    UserViewModel userView = new UserViewModel();
+                    var app = Application.Current as App;
+                    User user;
+                    try
+                    {
+
+                        user = await userView.GetUserByEmail(email.Text);
+
+                        if (email.Text.Equals(user.email) && Password.Text.Equals(user.password))
+                        {
+                            app.Email = email.Text;
+                            app.LoggedIn = "true";
+                            App.Current.MainPage = new HomePage();
+
+                        }
+                        else
+                        {
+                            await DisplayAlert("Login Failed", "You entered incorrect email/password.Try Again ", "OK");
+                            return;
+                        }
+
+                    }
+                    catch (Exception)
+                    {
+                        await DisplayAlert("User not found","User not found. Please register.", "OK");
+                        return;
+                    }
                 }
                 else
                 {
-                    await DisplayAlert("Login Failed", "You entered incorrect email/password.Try Again ", "OK");
-                }
 
+                    passwordFrame.BackgroundColor = Color.LightGray;
+                    Error.Text = "Please fill your password!";
+                    Error.TextColor = Color.Red;
+                    await Task.Delay(2000);
+                    Error.TextColor = Color.Transparent;
+                    passwordFrame.BackgroundColor = Color.White;
+                }
             }
-            catch (Exception ex)
+            else
             {
-                await DisplayAlert("Kullanıcı bulunamadı", ex.Message, "OK");
+                emailFrame.BackgroundColor = Color.LightGray;
+                passwordFrame.BackgroundColor = Color.LightGray;
+                Error.Text = "Please fill your e-mail and password!";
+                Error.TextColor = Color.Red;
+                await Task.Delay(2000);
+                Error.TextColor = Color.Transparent;
+                emailFrame.BackgroundColor = Color.White;
+                passwordFrame.BackgroundColor = Color.White;
             }
         }
     }
