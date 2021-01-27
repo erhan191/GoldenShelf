@@ -29,7 +29,7 @@ namespace GoldenShelf
 
         public UserViewModel()
         {
-
+            UpdateUserCommand = new Command(UpdateUser);
             SaveUserCommand = new Command(InsertUser);
             DeleteUserCommand = new Command(DeleteUser);
         }
@@ -100,6 +100,24 @@ namespace GoldenShelf
 
 
         #endregion
+        public async void UpdateUser()
+        {
+            var User = new User
+            {
+                name = Name,
+                password = Password,
+                city = City,
+                district = District,
+                image = Image
+            };
+            await MongoConnection.InsertOneAsync(User);
+            
+        }
+        public async Task UpdateUser(User user)
+        {
+            await MongoConnection.ReplaceOneAsync(t => t.email.Equals(user.email), user);
+        }
+    
 
         #region Search Functions 
 
@@ -117,26 +135,30 @@ namespace GoldenShelf
                 district = District,
                 image = Image
             };
+            try
+            {
 
-            await MongoConnection.InsertOneAsync(newUser);
+                await MongoConnection.InsertOneAsync(newUser);
+
+            }
+            catch (Exception)
+            {
+
+            }
             await Application.Current.MainPage.Navigation.PopAsync();
         }
+
         public async void InsertUser(User newUser)
         {
-            await MongoConnection.InsertOneAsync(newUser);
-            await Application.Current.MainPage.Navigation.PopAsync();
+            try
+            {
+                await MongoConnection.InsertOneAsync(newUser);
+            }
+            catch
+            {
+
+            }
         }
-
-
-
-
-
-
-
-
-
-
-
 
 
         public async void DeleteUser(object obj)
@@ -155,6 +177,7 @@ namespace GoldenShelf
 
         public ICommand SaveUserCommand { get; set; }
         public ICommand DeleteUserCommand { get; set; }
+        public ICommand UpdateUserCommand { get; set; }
 
         #endregion
 
@@ -165,7 +188,6 @@ namespace GoldenShelf
             {
                 if (client == null || usersCollection == null)
                 {
-
                     var connectionString = "mongodb://User:9MKh9Sdt4X5Xkt5z@goldenshelf-shard-00-00.j5cx5.mongodb.net:27017,goldenshelf-shard-00-01.j5cx5.mongodb.net:27017,goldenshelf-shard-00-02.j5cx5.mongodb.net:27017/<dbname>?ssl=true&replicaSet=atlas-9097aj-shard-0&authSource=admin&retryWrites=true&w=majority";
                     MongoClientSettings settings = MongoClientSettings.FromUrl(new MongoUrl(connectionString));
                     settings.SslSettings = new SslSettings { EnabledSslProtocols = SslProtocols.Tls12 };

@@ -13,18 +13,19 @@ namespace GoldenShelf
         public App()
         {
             InitializeComponent();
-            
-            if(LoggedIn=="false")
             MainPage = new NavigationPage(new intro1());
-           
-           if (LoggedIn == "true")
-              MainPage = new HomePage();
 
+            
         }
 
         protected override void OnStart()
 
         {
+            if (LoggedIn == "false")
+                MainPage = new NavigationPage(new intro1());
+
+            if (LoggedIn == "true")
+                MainPage = new HomePage();
         }
 
         protected override void OnSleep()

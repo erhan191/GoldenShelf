@@ -61,14 +61,18 @@ namespace GoldenShelf
                         }
                         else
                         {
-                            await DisplayAlert("Login Failed", "You entered incorrect email/password.Try Again ", "OK");
+                            PopUpTitle.Text = "LoginPage Failed!";
+                            PopUpLabel.Text = "You entered incorrect email/password.Try Again.";
+                            popUpImageView.IsVisible = true;
                             return;
                         }
 
                     }
                     catch (Exception)
                     {
-                        await DisplayAlert("User not found","User not found. Please register.", "OK");
+                        PopUpTitle.Text = "User not found!";
+                        PopUpLabel.Text = "User not found. Please register.";
+                        popUpImageView.IsVisible = true;
                         return;
                     }
                 }
@@ -94,6 +98,10 @@ namespace GoldenShelf
                 emailFrame.BackgroundColor = Color.White;
                 passwordFrame.BackgroundColor = Color.White;
             }
+        }
+        private void popUpButton(object sender, EventArgs e)
+        {
+            popUpImageView.IsVisible = false;
         }
     }
 }

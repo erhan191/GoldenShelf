@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using GoldenShelf.Models;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -10,11 +11,13 @@ using Xamarin.Forms;
 
 namespace GoldenShelf.ViewModels
 {
-    class AdvertViewModel:BaseViewModel
+    class AdvertViewModel : BaseViewModel
     {
         static IMongoCollection<Advert> advertCollection;
+        static IMongoCollection<Message> messageCollection;
         readonly static string dbName = "GoldenShelf";
         readonly static string collectionName = "Adverts";
+        readonly static string collectionMessageName = "Messages";
         static MongoClient client;
 
         private List<Advert> _donationAdvertList;
@@ -27,12 +30,48 @@ namespace GoldenShelf.ViewModels
         private string _description;
         private byte[] _image;
 
-       
+
+        private string _SpecialBookName;
+        private string _Sender;
+        private string _MessageText;
+        private string _Receiver;
+        private DateTime _Date;
+
         public AdvertViewModel()
         {
+            SaveMessageCommand = new Command(InsertMessage);
             SaveAdvertCommand = new Command(InsertAdvert);
             DeleteUserCommand = new Command(DeleteUser);
+            DeleteMessagesCommand = new Command(DeleteMessages);
         }
+
+        public string SpecialBookName
+        {
+            get { return _SpecialBookName; }
+            set { SetValue(ref _SpecialBookName, value); }
+        }
+        public string Sender
+        {
+            get { return _Sender; }
+            set { SetValue(ref _Sender, value); }
+        }
+        public string MessageText
+        {
+            get { return _MessageText; }
+            set { SetValue(ref _MessageText, value); }
+        }
+        public string Receiver
+        {
+            get { return _Receiver; }
+            set { SetValue(ref _Receiver, value); }
+        }
+        public DateTime Date
+        {
+            get { return _Date; }
+            set { SetValue(ref _Date, value); }
+        }
+
+
 
 
         public string BookName
@@ -53,7 +92,7 @@ namespace GoldenShelf.ViewModels
             set { SetValue(ref _bookCategory, value); }
         }
 
-        
+
         public string ShareType
         {
             get { return _shareType; }
@@ -86,19 +125,52 @@ namespace GoldenShelf.ViewModels
         public List<Advert> DonationAdvertList
         {
             get { return _donationAdvertList; }
-            set { SetValue(ref _donationAdvertList, value);}
+            set { SetValue(ref _donationAdvertList, value); }
 
         }
 
         #region Get Functions
-        public async Task<List<Advert>>GetAdverts()
+
+        public async Task<List<Message>> GetMessages()
+        {
+            var app = Application.Current as App;
+            try
+            {
+                var allMessages = await MongoConnectionMessage
+                    .Find(f => f.Receiver.Equals(app.Email))
+                    .ToListAsync();
+                return allMessages;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+            return null;
+        }
+        public async Task<List<Message>> GetMyMessages()
+        {
+            var app = Application.Current as App;
+            try
+            {
+                var allMessages = await MongoConnectionMessage
+                    .Find(f => f.Sender.Equals(app.Email))
+                    .ToListAsync();
+                return allMessages;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+            return null;
+        }
+        public async Task<List<Advert>> GetAdverts()
         {
             try
             {
                 var donationAdverts = await MongoConnection
                     .Find(new BsonDocument())
                     .ToListAsync();
-                    return donationAdverts;
+                return donationAdverts;
             }
             catch (Exception ex)
             {
@@ -123,6 +195,28 @@ namespace GoldenShelf.ViewModels
             }
             return null;
         }
+
+
+
+        public async Task<List<Advert>> getUsersAdverts(String email)
+        {
+            try
+            {
+                var allAdverts = await MongoConnection
+                    .Find(f => f.PublisherEmail.Equals(email))
+                    .ToListAsync();
+                return allAdverts;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+            return null;
+        }
+
+
+
+
 
         public async Task<Advert> getAdvertViaPublisherEmail(String email)
         {
@@ -159,18 +253,36 @@ namespace GoldenShelf.ViewModels
         #endregion
 
         #region Save/Delete Functions
+        public async void InsertMessage()
+        {
+            var newMessage = new Message
+            {
+                SpecialBookName = SpecialBookName,
+                Sender = Sender,
+                Receiver = Receiver,
+                MessageText = MessageText
+
+            };
+
+            await MongoConnectionMessage.InsertOneAsync(newMessage);
+        }
+        public async void InsertMessage(Message newMessage)
+        {
+            await MongoConnectionMessage.InsertOneAsync(newMessage);
+
+        }
         public async void InsertAdvert()
         {
             var newAdvert = new Advert
             {
-              BookName=BookName,
-              BookAuthor=BookAuthor,
-              BookCategory=BookCategory,
-              Image=Image,
-              Condition=Condition,
-              ShareType=ShareType,
-              PublisherEmail=PublisherEmail,
-              Description=Description
+                BookName = BookName,
+                BookAuthor = BookAuthor,
+                BookCategory = BookCategory,
+                Image = Image,
+                Condition = Condition,
+                ShareType = ShareType,
+                PublisherEmail = PublisherEmail,
+                Description = Description
 
             };
 
@@ -179,26 +291,64 @@ namespace GoldenShelf.ViewModels
         public async void InsertAdvert(Advert newAdvert)
         {
             await MongoConnection.InsertOneAsync(newAdvert);
-           
+
         }
-
-
-
 
         public async void DeleteUser(object obj)
         {
             var items = (Advert)obj;
             var result = await MongoConnection.DeleteOneAsync(tdi => tdi.AdvertID == items.AdvertID);
 
+        }
+
+        public async void DeleteMessages(object obj)
+        {
+            var app = Application.Current as App;
+            var items = (Message)obj;
+            while (true)
+            {
+                try
+                {
+                    var result = await MongoConnectionMessage.DeleteOneAsync(f => (f.Id == items.Id || f.Sender.Equals(app.Email) || f.Sender.Equals(app.Email)) && (f.SpecialBookName == items.SpecialBookName));
+
+                }
+                catch (Exception)
+                {
+                    break;
+                }
+            }
+
 
         }
 
+        public IMongoCollection<Message> MongoConnectionMessage
+        {
+            get
+            {
+                if (client == null || messageCollection == null)
+                {
+                    var connectionString = "mongodb://User:9MKh9Sdt4X5Xkt5z@goldenshelf-shard-00-00.j5cx5.mongodb.net:27017,goldenshelf-shard-00-01.j5cx5.mongodb.net:27017,goldenshelf-shard-00-02.j5cx5.mongodb.net:27017/<dbname>?ssl=true&replicaSet=atlas-9097aj-shard-0&authSource=admin&retryWrites=true&w=majority";
+                    MongoClientSettings settings = MongoClientSettings.FromUrl(new MongoUrl(connectionString));
+                    settings.SslSettings = new SslSettings { EnabledSslProtocols = SslProtocols.Tls12 };
+                    client = new MongoClient(settings);
+                    var db = client.GetDatabase(dbName);
+
+
+                    var collectionSettings = new MongoCollectionSettings { ReadPreference = ReadPreference.Nearest };
+                    messageCollection = db.GetCollection<Message>(collectionMessageName, collectionSettings);
+
+                }
+                return messageCollection;
+            }
+        }
         #endregion
 
         #region Command Functions
 
+        public ICommand SaveMessageCommand { get; set; }
         public ICommand SaveAdvertCommand { get; set; }
         public ICommand DeleteUserCommand { get; set; }
+        public ICommand DeleteMessagesCommand { get; set; }
 
         #endregion
 

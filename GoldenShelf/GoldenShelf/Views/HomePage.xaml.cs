@@ -21,43 +21,43 @@ namespace GoldenShelf.Views
         public ObservableCollection<Advert> DonationAdverts { get; set; }
         public ObservableCollection<Advert> ExchangeAdverts { get; set; }
 
+        public ObservableCollection<Message> Messages { get; set; }
+
+
         AdvertViewModel advertViewModel = new AdvertViewModel();
 
-       
+
         public HomePage()
         {
             InitializeComponent();
+            var myadverts_tap = new TapGestureRecognizer();
+            myadverts_tap.Tapped += async (s, e) =>
+            {
+                await Navigation.PushAsync(new MyAdverts()); ;
+            };
+            myAdverts.GestureRecognizers.Add(myadverts_tap);
 
+            Messages = new ObservableCollection<Message>();
             DonationAdverts = new ObservableCollection<Advert>();
             ExchangeAdverts = new ObservableCollection<Advert>();
-            
+
             BindingContext = advertViewModel;
-            
+
             var Categories = new List<Category>
             {
-                new Category {CategoryName="Art & Photography",CategoryImage="https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg" },
-                new Category {CategoryName="Horror",CategoryImage="https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg" },
-                new Category {CategoryName="Classics",CategoryImage="https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg" },
-                new Category {CategoryName="Historical Fiction",CategoryImage="https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg" },
-                new Category {CategoryName="Classics",CategoryImage="https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg" },
-                new Category {CategoryName="Comic Book",CategoryImage="https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg" },
-                new Category {CategoryName="Literary Fiction",CategoryImage="https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg" },
-                new Category {CategoryName="Adventure",CategoryImage="https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg" },
-                new Category {CategoryName="Mystery",CategoryImage="https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg" }
+                new Category {CategoryName="TYT AYT",CategoryImage="Tyt.png" },
+                new Category {CategoryName="LGS",CategoryImage="Lgs.jpg" },
+                new Category {CategoryName="YDS TOEFL",CategoryImage="Toefl.jpg" },
+                new Category {CategoryName="Academic Book",CategoryImage="Academic.png" },
+                new Category {CategoryName="Children's Book",CategoryImage="Children.png" },
+                new Category {CategoryName="Novel",CategoryImage="Novel.jpg" },
+                new Category {CategoryName="Poem",CategoryImage="Poem.png" },
+                new Category {CategoryName="Comic Book",CategoryImage="comicbook.jpg" },
+                new Category {CategoryName="Others",CategoryImage="Others.png" }
 
             };
 
-            var Messages = new List<Message>
-            {
-                new Message {Name="Animal Farm", Sender="John", MessageText="What dou you think about changin? ",ImageUrl="https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg",BGColor="#00B5B9" },
-                new Message {Name="1984", Sender="Michael", MessageText="Have you given it to somebody?", ImageUrl="https://i.dr.com.tr/cache/500x400-0/originals/0000000064038-1.jpg",BGColor="#1B9101" },
-                new Message {Name="Animal Farm", Sender="John", MessageText="What dou you think about changin? ",ImageUrl="https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg",BGColor="#00B5B9" },
-                new Message {Name="1984", Sender="Michael", MessageText="Have you given it to somebody?", ImageUrl="https://i.dr.com.tr/cache/500x400-0/originals/0000000064038-1.jpg",BGColor="#1B9101" },
-                new Message {Name="Animal Farm", Sender="John", MessageText="What dou you think about changin? ",ImageUrl="https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg",BGColor="#00B5B9" },
-                new Message {Name="1984", Sender="Michael", MessageText="Have you given it to somebody?", ImageUrl="https://i.dr.com.tr/cache/500x400-0/originals/0000000064038-1.jpg",BGColor="#1B9101" },
-                new Message {Name="Animal Farm", Sender="John", MessageText="What dou you think about changin? ",ImageUrl="https://i.dr.com.tr/cache/600x600-0/originals/0000000105409-1.jpg",BGColor="#00B5B9" },
-                new Message {Name="1984", Sender="Michael", MessageText="Have you given it to somebody?", ImageUrl="https://i.dr.com.tr/cache/500x400-0/originals/0000000064038-1.jpg",BGColor="#1B9101" }
-            };
+
 
 
             CategoryListView.ItemsSource = Categories;
@@ -66,7 +66,8 @@ namespace GoldenShelf.Views
             MessageListView.ItemsSource = Messages;
             OnAppearing();
 
-            DonationsListView.RefreshCommand = new Command(async () => {
+            DonationsListView.RefreshCommand = new Command(async () =>
+            {
                 DonationsListView.RefreshControlColor = Color.FromHex("#1B9101");
                 DonationsListView.IsRefreshing = true;
                 var donationAdverts = await advertViewModel.GetDonationAdverts();
@@ -79,8 +80,9 @@ namespace GoldenShelf.Views
                 DonationsListView.ItemsSource = DonationAdverts;
                 DonationsListView.IsRefreshing = false;
             });
-          
-              ExchangesListView.RefreshCommand = new Command(async () => {
+
+            ExchangesListView.RefreshCommand = new Command(async () =>
+            {
                 ExchangesListView.RefreshControlColor = Color.FromHex("#00B5B9");
                 ExchangesListView.IsRefreshing = true;
                 var exchangeAdverts = await advertViewModel.GetExchangeAdverts();
@@ -93,15 +95,40 @@ namespace GoldenShelf.Views
                 ExchangesListView.ItemsSource = ExchangeAdverts;
                 ExchangesListView.IsRefreshing = false;
             });
-            
+            ExchangesListView.RefreshCommand = new Command(async () =>
+            {
+                var Mainapp = Application.Current as App;
+                var messages = await advertViewModel.GetMessages();
+
+                messages.Reverse();
+                foreach (var item in messages)
+                {
+                    if (!Messages.Any((arg) => arg.Id == item.Id))
+                        if (!Messages.Any((arg) => item.Sender == arg.Sender && item.SpecialBookName == arg.SpecialBookName))
+
+                            if ((item.Receiver.ToString() == Mainapp.Email))
+                            {
+                                Messages.Add(item);
+
+                            }
+
+                }
+            });
+           
         }
 
-
+        private void BookSearchBar_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var searchDonationResult = DonationAdverts.Where(c => c.BookName.ToLower().Contains(BookSearchBar.Text.ToLower()));
+            var searchExchangeResult = ExchangeAdverts.Where(c => c.BookName.ToLower().Contains(BookSearchBar.Text.ToLower()));
+            DonationsListView.ItemsSource = searchDonationResult;
+            ExchangesListView.ItemsSource = searchExchangeResult;
+        }
         protected async override void OnAppearing()
         {
             base.OnAppearing();
             await HomePageAppears();
-       
+
         }
 
         protected override void OnDisappearing()
@@ -117,10 +144,10 @@ namespace GoldenShelf.Views
 
         }
 
-        public async void MessageListview_ItemTapped(object sender, ItemTappedEventArgs e)
+        public async void MessageListView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             var selectedInstructor = e.Item as Message;
-            await Navigation.PushAsync(new MessageDetailPage(selectedInstructor.Name, selectedInstructor.Sender, selectedInstructor.ImageUrl, selectedInstructor.BGColor));
+            await Navigation.PushAsync(new MessageDetailPage(selectedInstructor.Sender, selectedInstructor.SpecialBookName));
 
         }
         public async void DonationListview_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -128,68 +155,97 @@ namespace GoldenShelf.Views
             var myListView = (ListView)sender;
             var myItem = myListView.SelectedItem as Advert;
 
-            await Navigation.PushAsync(new BookPage(myItem.BookName, myItem.BookAuthor, myItem.BookCategory, myItem.Condition, myItem.ShareType, myItem.Description, myItem.PublisherEmail,myItem.Image));
+            await Navigation.PushAsync(new BookPage(myItem.BookName, myItem.BookAuthor, myItem.BookCategory, myItem.Condition, myItem.ShareType, myItem.Description, myItem.PublisherEmail, myItem.Image));
         }
         public async void ExchangeListview_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             var myListView = (ListView)sender;
             var myItem = myListView.SelectedItem as Advert;
 
-            await Navigation.PushAsync(new BookPage(myItem.BookName, myItem.BookAuthor, myItem.BookCategory,myItem.Condition,myItem.ShareType, myItem.Description, myItem.PublisherEmail,myItem.Image));
+            await Navigation.PushAsync(new BookPage(myItem.BookName, myItem.BookAuthor, myItem.BookCategory, myItem.Condition, myItem.ShareType, myItem.Description, myItem.PublisherEmail, myItem.Image));
         }
         private async void AddPhotoFromGallery(object sender, EventArgs e)
         {
-           
-            await CrossMedia.Current.Initialize();
-
-            if (!CrossMedia.Current.IsPickPhotoSupported||! CrossMedia.Current.IsTakePhotoSupported)
+            try
             {
-                await DisplayAlert("Not supported", "Your device does not currently support this functionality", "OK");
-                return;
+
+                await CrossMedia.Current.Initialize();
+
+                if (!CrossMedia.Current.IsPickPhotoSupported || !CrossMedia.Current.IsTakePhotoSupported)
+                {
+
+                    PopUpTitleShare.Text = "Not Supported!";
+                    PopUpLabelShare.Text = "Your device does not currently support this functionality.";
+                    popUpImageViewShare.IsVisible = true;
+                    return;
+                }
+
+                var mediaOptions = new PickMediaOptions()
+                {
+                    PhotoSize = PhotoSize.Medium
+                };
+                var selectedImageFile = await CrossMedia.Current.PickPhotoAsync(mediaOptions);
+
+                if (selectedImage == null)
+                {
+                    PopUpTitleShare.Text = "Error!";
+                    PopUpLabelShare.Text = "Could not get the image , please try again.";
+                    popUpImageViewShare.IsVisible = true;
+                }
+                selectedImage.Source = ImageSource.FromStream(() => selectedImageFile.GetStream());
+                imagebyte = GetImageStreamAsBytes(selectedImageFile.GetStream());
+
+                //TODO :Add selection of multichocice
+
             }
-
-            var mediaOptions = new PickMediaOptions() {
-                PhotoSize = PhotoSize.Medium
-            };
-            var selectedImageFile = await CrossMedia.Current.PickPhotoAsync(mediaOptions);
-
-            if (selectedImage == null)
+            catch (Exception)
             {
-                await DisplayAlert("Error", "Could not get the image , please try again.", "OK");
+                
+                PopUpTitleShare.Text = "Error!";
+                PopUpLabelShare.Text = "Could not get the image , please try again.";
+                popUpImageViewShare.IsVisible = true;
             }
-            selectedImage.Source = ImageSource.FromStream(() => selectedImageFile.GetStream());
-            imagebyte = GetImageStreamAsBytes(selectedImageFile.GetStream());
-
-            //TODO :Add selection of multichocice
-
         }
         private async void TakePhoto(object sender, EventArgs e)
         {
-
-            await CrossMedia.Current.Initialize();
-
-            if (!CrossMedia.Current.IsPickPhotoSupported || !CrossMedia.Current.IsTakePhotoSupported)
+            try
             {
-                await DisplayAlert("Not supported", "Your device does not currently support this functionality", "OK");
-                return;
+
+                await CrossMedia.Current.Initialize();
+
+                if (!CrossMedia.Current.IsPickPhotoSupported || !CrossMedia.Current.IsTakePhotoSupported)
+                {
+                    PopUpTitleShare.Text = "Not Supported!";
+                    PopUpLabelShare.Text = "Your device does not currently support this functionality.";
+                    popUpImageViewShare.IsVisible = true;
+                    return;
+                }
+
+                var mediaOptions = new PickMediaOptions()
+                {
+                    PhotoSize = PhotoSize.Medium
+                };
+                var selectedImageFile = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions { AllowCropping = true, SaveToAlbum = true });
+
+
+                if (selectedImage == null)
+                {
+                    PopUpTitleShare.Text = "Error!";
+                    PopUpLabelShare.Text = "Could not get the image , please try again.";
+                    popUpImageViewShare.IsVisible = true;
+                }
+                selectedImage.Source = ImageSource.FromStream(() => selectedImageFile.GetStream());
+                imagebyte = GetImageStreamAsBytes(selectedImageFile.GetStream());
+
+                //TODO :Add selection of multichocice
+
             }
-
-            var mediaOptions = new PickMediaOptions()
+            catch (Exception)
             {
-                PhotoSize = PhotoSize.Medium
-            };
-            var selectedImageFile = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions{AllowCropping = true ,SaveToAlbum=true});
-               
-
-            if (selectedImage == null)
-            {
-                await DisplayAlert("Error", "Could not get the image , please try again.", "OK");
+                PopUpTitleShare.Text = "Error!";
+                PopUpLabelShare.Text = "Could not get the image , please try again.";
+                popUpImageViewShare.IsVisible = true;
             }
-            selectedImage.Source = ImageSource.FromStream(() => selectedImageFile.GetStream());
-            imagebyte = GetImageStreamAsBytes(selectedImageFile.GetStream());
-
-            //TODO :Add selection of multichocice
-
         }
         // Image to Byte Converter
         public byte[] GetImageStreamAsBytes(Stream input)
@@ -206,7 +262,7 @@ namespace GoldenShelf.Views
             }
         }
 
-        private void Share_Clicked(object sender, EventArgs e)
+        private async void Share_Clicked(object sender, EventArgs e)
         {
             var app = Application.Current as App;
             try
@@ -228,21 +284,24 @@ namespace GoldenShelf.Views
             }
             catch
             {
-                DisplayAlert("Error", "Please fill required spaces and try again.", "OK");
+                PopUpTitleShare.Text = "Error!";
+                PopUpLabelShare.Text = "Please fill required spaces and try again.";
+                popUpImageViewShare.IsVisible = true;
                 return;
             }
 
-
-
-
-            DisplayAlert("Successful", "You published a new advert succesfully", "OK");
+            PopUpTitleShare.Text = "Successful!";
+            PopUpLabelShare.Text = "You published a new advert succesfully.";
+            popUpImageViewShare.IsVisible = true;
             bookAuthor.Text = "";
+            selectedImage.Source = "imgclear.png";
             bookCategoryPicker.SelectedItem = null;
             bookName.Text = "";
             bookConditionPicker.SelectedItem = null;
             description.Text = "";
             shareTypePicker.SelectedItem = null;
             imagebyte = null;
+            await HomePageAppears();
 
 
 
@@ -252,13 +311,36 @@ namespace GoldenShelf.Views
 
         private async void EditProfile_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new EditProfilePage());
+            UserViewModel userView = new UserViewModel();
+            var app = Application.Current as App;
+            User user;
+
+            try
+            {
+                user = await userView.GetUserByEmail(app.Email);
+                try
+                {
+
+                    user = await userView.GetUserByEmail(app.Email);
+                }
+                catch (Exception ex)
+                {
+                    PopUpTitle.Text = "Kullanıcı Bulunamadı!";
+                    PopUpLabel.Text = ex.Message;
+                    popUpImageView.IsVisible = true;
+                }
+
+            }
+            catch (Exception)
+            {
+                PopUpTitle.Text = "User not found!";
+                PopUpLabel.Text = "User not found. Please register.";
+                popUpImageView.IsVisible = true;
+                return;
+            }
+            await Navigation.PushAsync(new EditProfilePage(user));
         }
 
-        private async void FilterButton_Clicked(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new FilterPage());
-        }
 
         private async void MyAdvertsButton_Clicked(object sender, EventArgs e)
         {
@@ -266,9 +348,25 @@ namespace GoldenShelf.Views
         }
         private async Task HomePageAppears()
         {
+            var Mainapp = Application.Current as App;
+            var messages = await advertViewModel.GetMessages();
+
+            messages.Reverse();
+            foreach (var item in messages)
+            {
+                if (!Messages.Any((arg) => arg.Id == item.Id))
+                    if (!Messages.Any((arg) => item.Sender == arg.Sender && item.SpecialBookName == arg.SpecialBookName))
+
+                        if ((item.Receiver.ToString() == Mainapp.Email))
+                        {
+                            Messages.Add(item);
+
+                        }
+
+            }
             //-------------- To show Donation Adverts on the main page
             var donationAdverts = await advertViewModel.GetDonationAdverts();
-            
+
             //List reversed to show people last adverts.
             donationAdverts.Reverse();
 
@@ -280,7 +378,7 @@ namespace GoldenShelf.Views
             //------------------------------------------------------------------------
             //-------------- To show Donation Adverts on the main page
             var exchangeAdverts = await advertViewModel.GetExchangeAdverts();
-           
+
             //List reversed to show people last adverts.
             exchangeAdverts.Reverse();
             foreach (var item in exchangeAdverts)
@@ -291,12 +389,12 @@ namespace GoldenShelf.Views
 
             //------------------------------------------------------------------------
 
-            
 
 
-            
+
+
             //To show profile information to user using saved email 
-            
+
             UserViewModel userView = new UserViewModel();
             var app = Application.Current as App;
             User user;
@@ -310,12 +408,14 @@ namespace GoldenShelf.Views
                 changeName.Text = user.name;
                 changeEmail.Text = user.email;
                 changeLocation.Text = user.city + "/" + user.district;
-                userImage.Source= ImageSource.FromStream(() => new MemoryStream(user.image));
+                userImage.Source = ImageSource.FromStream(() => new MemoryStream(user.image));
 
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Kullanıcı bulunamadı", ex.Message, "OK");
+                PopUpTitle.Text = "User not found!";
+                PopUpLabel.Text = ex.Message;
+                popUpImageView.IsVisible = true;
             }
 
         }
@@ -326,7 +426,85 @@ namespace GoldenShelf.Views
             var app = Application.Current as App;
             app.Email = "";
             app.LoggedIn = "false";
-            App.Current.MainPage =new NavigationPage(new MainPage());
+            App.Current.MainPage = new NavigationPage(new MainPage());
+
+        }
+
+        private async void SettingsButton_Clicked(object sender, EventArgs e)
+        {
+            UserViewModel userView = new UserViewModel();
+            var app = Application.Current as App;
+            User user;
+
+            try
+            {
+                user = await userView.GetUserByEmail(app.Email);
+                try
+                {
+
+                    user = await userView.GetUserByEmail(app.Email);
+                }
+                catch (Exception ex)
+                {
+                    PopUpTitle.Text = "User not found!";
+                    PopUpLabel.Text = ex.Message;
+                    popUpImageView.IsVisible = true;
+                }
+
+            }
+            catch (Exception)
+            {
+                PopUpTitle.Text = "User not found!";
+                PopUpLabel.Text = "User not found. Please register.";
+                popUpImageView.IsVisible = true;
+                return;
+            }
+            await Navigation.PushAsync(new EditProfilePage(user));
+        }
+
+        private async void Filter_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new FilterPage());
+        }
+        private void popUpButton(object sender, EventArgs e)
+        {
+            popUpImageView.IsVisible = false;
+        }
+        private void popUpButtonShare(object sender, EventArgs e)
+        {
+            if (PopUpTitleShare.Text.Equals("Successful!"))
+            {
+                popUpImageViewShare.IsVisible = false;
+                App.Current.MainPage = new HomePage();
+            }
+            else
+            {
+                popUpImageViewShare.IsVisible = false;
+            }
+
+        }
+        private void popUpButtonMessage(object sender, EventArgs e)
+        {
+            if (PopUpTitleMessage.Text.Equals("Successful!"))
+            {
+                popUpImageViewMessage.IsVisible = false;
+                App.Current.MainPage = new HomePage();
+            }
+            else
+            {
+                popUpImageViewMessage.IsVisible = false;
+            }
+
+        }
+
+        private void DeleteButton_Clicked(object sender, EventArgs e)
+        {
+            ImageButton btn = (ImageButton)sender;
+            var ob = btn.CommandParameter as Message;
+            advertViewModel.DeleteMessages(ob);
+            PopUpTitleMessage.Text = "Successful!";
+            PopUpLabelMessage.Text = "These messages deleted succesfully.";
+            popUpImageViewMessage.IsVisible = true;
 
         }
     }

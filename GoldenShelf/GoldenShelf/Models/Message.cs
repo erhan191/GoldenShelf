@@ -1,16 +1,29 @@
-﻿using System;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace GoldenShelf.Models
 {
-    class Message
+    public class Message
     {
+        [BsonId, BsonElement("MessageID")]
         public Guid Id { get; set; }
-        public string Name { get; set; }
+
+        [BsonElement("Name")]
+        public string SpecialBookName { get; set; }
+        [BsonElement("Sender")]
         public string Sender { get; set; }
+
+        [BsonElement("Receiver")]
+        public string Receiver { get; set; }
+
+        [BsonElement("MessageText")]
         public string MessageText { get; set; }
-        public string ImageUrl { get; set; }
-        public string BGColor { get; set; }
+
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
+        public DateTime Date { get; set; }
+        [BsonElement("Location")]
+        public string Location { get; set; }
     }
 }
